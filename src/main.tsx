@@ -11,6 +11,7 @@ import { ServiceAreas } from './pages/ServiceAreas';
 import { FAQ } from './pages/FAQ';
 import { Book } from './pages/Book';
 import { Contact } from './pages/Contact';
+import { NotFound } from './pages/NotFound';
 import './index.css';
 
 const router = createBrowserRouter([
@@ -27,6 +28,8 @@ const router = createBrowserRouter([
       { path: 'faq', element: <FAQ /> },
       { path: 'book', element: <Book /> },
       { path: 'contact', element: <Contact /> },
+      // Catch-all 404. Must stay last.
+      { path: '*', element: <NotFound /> },
     ],
   },
 ]);

@@ -35,7 +35,7 @@ export function MobileBookingBar() {
         >
           <Link
             to="/book"
-            className="block w-full bg-brand-teal text-brand-ivory text-center py-4 rounded-md font-semibold tracking-wider uppercase text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-teal focus:ring-offset-brand-ivory"
+            className="block w-full bg-brand-teal text-brand-ivory text-center py-4 rounded-md font-semibold tracking-wider uppercase text-sm"
           >
             Book Your Session
           </Link>

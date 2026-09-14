@@ -42,7 +42,7 @@ export function Header() {
       )}
     >
       <div className="max-w-[1440px] mx-auto px-6 lg:px-12 h-20 md:h-24 flex items-center justify-between">
-        <Link to="/" className="z-50 relative focus:outline-none focus:ring-2 focus:ring-brand-tealHover focus:ring-offset-4 rounded-sm">
+        <Link to="/" className="z-50 relative rounded-sm">
           <span className="font-display font-semibold text-2xl tracking-wide uppercase">The Living Axis</span>
         </Link>
 
@@ -53,7 +53,7 @@ export function Header() {
               key={link.path}
               to={link.path}
               className={cn(
-                'text-sm font-medium tracking-wide hover:text-brand-tealHover transition-colors focus:outline-none focus:ring-2 focus:ring-brand-tealHover rounded-sm px-1',
+                'text-sm font-medium tracking-wide hover:text-brand-tealHover transition-colors rounded-sm px-1',
                 useTransparentHeader ? 'text-brand-ivory' : 'text-brand-espresso'
               )}
             >
@@ -63,10 +63,10 @@ export function Header() {
           <Link
             to="/book"
             className={cn(
-              'px-6 py-3 rounded-md text-sm font-semibold tracking-wider uppercase transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2',
-              useTransparentHeader 
-                ? 'bg-brand-ivory text-brand-teal hover:bg-white focus:ring-brand-ivory' 
-                : 'bg-brand-teal text-brand-ivory hover:bg-brand-tealHover focus:ring-brand-teal'
+              'px-6 py-3 rounded-md text-sm font-semibold tracking-wider uppercase transition-colors',
+              useTransparentHeader
+                ? 'bg-brand-ivory text-brand-teal hover:bg-white'
+                : 'bg-brand-teal text-brand-ivory hover:bg-brand-tealHover'
             )}
           >
             Book Your Session
@@ -75,9 +75,9 @@ export function Header() {
 
         {/* Mobile Menu Toggle */}
         <button
-          className="md:hidden z-50 p-2 focus:outline-none focus:ring-2 focus:ring-brand-tealHover rounded-md"
+          className="md:hidden z-50 p-2 rounded-md"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+          aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
         >
           {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
