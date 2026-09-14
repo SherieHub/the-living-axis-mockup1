@@ -2,7 +2,14 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Plus, Minus } from 'lucide-react';
-import { confirmedFaqs, pendingFaqs, DEPOSIT_REASON, DEPOSIT_TERMS } from '../data/content';
+import {
+  confirmedFaqs,
+  pendingFaqs,
+  pendingPolicies,
+  PENDING_LABEL,
+  DEPOSIT_REASON,
+  DEPOSIT_TERMS,
+} from '../data/content';
 import { usePageMeta } from '../hooks/usePageMeta';
 import { faqPageSchema } from '../data/schema';
 
@@ -94,21 +101,32 @@ export function FAQ() {
       {/* 3. Pending FAQs */}
       <section className="px-6 lg:px-12 max-w-[1000px] mx-auto mb-32">
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-50px' }} variants={fadeUp}>
-          <h2 className="text-sm uppercase tracking-widest font-semibold text-brand-teal mb-6">Additional Topics</h2>
-          <div className="border-t border-brand-teal/10">
-            {pendingFaqs.map((question, index) => (
-              <div
-                key={index}
-                className="border-b border-brand-teal/10 py-6 md:py-8 flex justify-between items-start opacity-60"
+          <h2 className="text-sm uppercase tracking-widest font-semibold text-brand-teal mb-2">Additional Topics</h2>
+          <p className="text-sm text-brand-espresso/60 mb-6 max-w-xl leading-relaxed">
+            These are live questions with no confirmed answer yet. Each one is a slot waiting on the practitioner, not
+            an omission.
+          </p>
+
+          {/*
+            Pending rows are distinguished by THREE cues, never colour alone: a
+            eucalyptus left rule, a lighter label weight, and the explicit
+            "Answer pending client confirmation" text. Every fabricated claim
+            removed in the corrections pass left a row here, so nothing quietly
+            disappeared from the client's launch checklist.
+          */}
+          <ul className="border-t border-brand-teal/10">
+            {pendingFaqs.map((question) => (
+              <li
+                key={question}
+                className="border-b border-brand-teal/10 border-l-2 border-l-brand-eucalyptus pl-4 md:pl-6 py-6 md:py-7 flex flex-col md:flex-row md:justify-between md:items-start gap-2 md:gap-8"
               >
-                <h3 className="text-lg md:text-xl font-display text-brand-espresso pr-8">{question}</h3>
-                <span className="text-xs uppercase tracking-widest font-semibold text-brand-espresso/40 shrink-0 mt-1 md:mt-2 text-right">
-                  Answer Pending
-                  <br className="md:hidden" /> Client Confirmation
+                <h3 className="text-lg md:text-xl font-display text-brand-espresso/70">{question}</h3>
+                <span className="text-xs uppercase tracking-widest font-medium text-brand-espresso/55 shrink-0 md:mt-2 md:text-right">
+                  {PENDING_LABEL}
                 </span>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </motion.div>
       </section>
 
@@ -152,25 +170,25 @@ export function FAQ() {
               </p>
             </motion.div>
 
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-50px' }}
-              variants={fadeUp}
-            >
-              <h3 className="font-display text-2xl text-brand-teal mb-4">Cancellation & Rescheduling</h3>
-              <p className="text-brand-espresso/50 italic leading-relaxed">[Final wording pending client approval]</p>
-            </motion.div>
-
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-50px' }}
-              variants={fadeUp}
-            >
-              <h3 className="font-display text-2xl text-brand-teal mb-4">Refund Policy</h3>
-              <p className="text-brand-espresso/50 italic leading-relaxed">[Final wording pending client approval]</p>
-            </motion.div>
+            {/* Policies with no confirmed wording carry the same pending
+                treatment as the FAQ rows above — eucalyptus rule, explicit
+                label, and a line saying what specifically is still open. */}
+            {pendingPolicies.map((policy) => (
+              <motion.div
+                key={policy.title}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-50px' }}
+                variants={fadeUp}
+                className="border-l-2 border-l-brand-eucalyptus pl-4 md:pl-6"
+              >
+                <h3 className="font-display text-2xl text-brand-teal mb-2">{policy.title}</h3>
+                <p className="text-xs uppercase tracking-widest font-medium text-brand-espresso/55 mb-3">
+                  {PENDING_LABEL}
+                </p>
+                <p className="text-brand-espresso/70 leading-relaxed">{policy.note}</p>
+              </motion.div>
+            ))}
 
             <motion.div
               initial="hidden"
@@ -200,7 +218,7 @@ export function FAQ() {
       </section>
 
       {/* 5. Closing CTA */}
-      <section className="bg-brand-teal text-brand-ivory py-24 md:py-32 px-6 lg:px-12 text-center">
+      <section className="ground-dark bg-brand-teal text-brand-ivory py-24 md:py-32 px-6 lg:px-12 text-center">
         <motion.div
           initial="hidden"
           whileInView="visible"

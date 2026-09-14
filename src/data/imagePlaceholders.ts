@@ -35,6 +35,12 @@ export interface ImageSlot {
   shotBrief: string;
   /** True = practitioner identity slot. Never filled with a stock person. */
   practitionerSlot?: boolean;
+  /**
+   * Shot brief broken into display lines, set inside the textured frame that
+   * practitioner slots render. Doubles as a deliverable for the client's
+   * photographer — they can shoot straight from the mockup.
+   */
+  briefLines?: string[];
   /** Attribution, mirrored in /credits.md. */
   credit?: { photographer: string; source: string };
 }
@@ -43,6 +49,12 @@ const U = (id: string, w = 1600) => `https://images.unsplash.com/photo-${id}?aut
 
 const PRACTITIONER_BRIEF =
   'Practitioner portrait, warm, direct to camera, natural interior light · 4:5 · the trust anchor for the whole site. Deliberately left empty — a stock face here would stand in for a specific real person.';
+
+const PRACTITIONER_BRIEF_LINES = [
+  'Practitioner portrait · 4:5',
+  'Warm, direct to camera, natural interior light.',
+  'The trust anchor for the entire site.',
+];
 
 export const imageSlots = {
   /* ---------------------------------------------------------------- HOME */
@@ -75,6 +87,7 @@ export const imageSlots = {
     aspectRatio: '4:5',
     label: 'Practitioner Portrait',
     shotBrief: PRACTITIONER_BRIEF,
+    briefLines: PRACTITIONER_BRIEF_LINES,
     practitionerSlot: true,
   },
 
@@ -84,6 +97,7 @@ export const imageSlots = {
     aspectRatio: '4:5',
     label: 'Practitioner Portrait',
     shotBrief: PRACTITIONER_BRIEF,
+    briefLines: PRACTITIONER_BRIEF_LINES,
     practitionerSlot: true,
   },
   'about-hands': {

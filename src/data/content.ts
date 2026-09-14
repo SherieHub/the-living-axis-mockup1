@@ -146,6 +146,17 @@ export const DEPOSIT_TERMS = 'A 50% deposit confirms your appointment. The balan
 /* would otherwise imply a completed transaction or a delivered message       */
 /* carries one of these permanently.                                         */
 /* ------------------------------------------------------------------------ */
+/* Approved client copy. The confirmation headline carries the emotional peak;
+   the permanent prototype notice beside it carries the disclosure. Do not hedge
+   both — one does each job. */
+/* Contact details the client still owes. Rendered as visible, labelled
+   placeholders — an absent field reads as an oversight, a labelled one reads as
+   deliberate and keeps the item on the launch checklist. */
+export const PENDING_BUSINESS_EMAIL = 'Business Email — to be provided';
+
+export const CONFIRMATION_HEADLINE = 'Your session is confirmed.';
+export const BRAND_LINE = 'Healing that feels like coming home.';
+
 export const PROTOTYPE_BOOKING_NOTICE =
   'Demonstration booking — no appointment has been scheduled and no payment has been taken.';
 export const PROTOTYPE_CONTACT_NOTICE = 'Demonstration form — no message has been sent.';
@@ -216,17 +227,43 @@ export const confirmedFaqs = [
   },
 ];
 
+/*
+ * Every removed fabrication leaves a visible pending row here, so the client can
+ * see exactly where her answer will land and the launch checklist keeps the
+ * item. The parenthetical notes name the claim that was removed.
+ */
 export const pendingFaqs = [
-  'How much space do you need?',
+  'How much space do you need?', // was: a fabricated 6x9-foot requirement
   'What if I live in a small apartment or a walk-up?',
   'Do I need to clean before you arrive?',
-  'How long does setup take?',
+  'How long does setup take?', // was: a fabricated "arrives 15 minutes early"
+  'What equipment and supplies do you bring?', // was: a fabricated heated table
+  'How is travel priced outside Brooklyn?', // was: a fabricated distance-based fee
+  'How far in advance should I book?', // was: a fabricated one-to-two-week lead time
   'What are your professional credentials and insurance?',
   'Can I book for someone else as a gift?',
   'Do you offer back-to-back sessions in the same home?',
   'What forms of payment do you accept?',
-  'What if I need to reschedule?',
+  'What if I need to reschedule?', // cancellation terms: see pendingPolicies
   'Is there parking or building access I should arrange?',
+];
+
+/** Label used on every pending surface. One string, so they cannot drift. */
+export const PENDING_LABEL = 'Answer pending client confirmation';
+
+/*
+ * Policy blocks with no confirmed wording. Rendered in the Policies section with
+ * the same pending treatment as the FAQ rows, never as a silent omission.
+ */
+export const pendingPolicies = [
+  {
+    title: 'Cancellation & Rescheduling',
+    note: 'Notice period and any associated fee are not yet set.', // was: a fabricated 24-hour policy
+  },
+  {
+    title: 'Refund Policy',
+    note: 'Refund conditions and timelines are not yet set.',
+  },
 ];
 
 export const serviceAreas = [

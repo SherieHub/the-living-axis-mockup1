@@ -22,6 +22,10 @@ function upsertLink(rel: string, href: string) {
   el.setAttribute('href', href);
 }
 
+function removeTag(selector: string) {
+  document.head.querySelector(selector)?.remove();
+}
+
 /**
  * Per-route <title>, meta description, canonical, Open Graph and Twitter tags,
  * plus optional JSON-LD structured data.
@@ -35,15 +39,28 @@ export function usePageMeta(title: string, description: string, jsonLd?: object 
   useEffect(() => {
     document.title = title;
 
-    const url = `${SITE_URL}${location.pathname}`;
-
     upsertMeta('meta[name="description"]', 'name', 'description', description);
-    upsertLink('canonical', url);
 
+    /*
+     * Canonical and og:url are ABSENT, not placeholder, until VITE_SITE_URL is
+     * set. Both are absolute-URL-only fields: a relative or invented value is
+     * acted on by crawlers and link-preview services, which is worse than
+     * emitting nothing. They are also actively removed, so a stale tag cannot
+     * survive a client-side navigation after the domain is unset.
+     */
+    if (SITE_URL) {
+      const url = `${SITE_URL}${location.pathname}`;
+      upsertLink('canonical', url);
+      upsertMeta('meta[property="og:url"]', 'property', 'og:url', url);
+    } else {
+      removeTag('link[rel="canonical"]');
+      removeTag('meta[property="og:url"]');
+    }
+
+    /* Every other Open Graph tag renders normally regardless. */
     upsertMeta('meta[property="og:title"]', 'property', 'og:title', title);
     upsertMeta('meta[property="og:description"]', 'property', 'og:description', description);
     upsertMeta('meta[property="og:type"]', 'property', 'og:type', 'website');
-    upsertMeta('meta[property="og:url"]', 'property', 'og:url', url);
     upsertMeta('meta[property="og:site_name"]', 'property', 'og:site_name', 'The Living Axis');
     upsertMeta('meta[property="og:image"]', 'property', 'og:image', OG_IMAGE);
 

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { SiteImage } from '../components/SiteImage';
-import { services, confirmedFaqs } from '../data/content';
+import { services, confirmedFaqs, BRAND_LINE } from '../data/content';
 import { ArrowRight, Plus, Minus } from 'lucide-react';
 import { usePageMeta } from '../hooks/usePageMeta';
 import { localBusinessSchema } from '../data/schema';
@@ -11,7 +11,7 @@ export function Home() {
   // LocalBusiness schema is emitted once, from the homepage.
   usePageMeta(
     'Mobile Massage Therapy in Brooklyn, NY | The Living Axis',
-    'Deep tissue, sports, restorative and prenatal massage brought to your own space across Brooklyn and greater New York City.',
+    'Clinical touch, human understanding. Deep tissue, sports, restorative and prenatal massage brought to your own space across Brooklyn and greater New York City.',
     localBusinessSchema
   );
 
@@ -26,7 +26,7 @@ export function Home() {
   return (
     <div className="bg-brand-ivory min-h-screen selection:bg-brand-teal/20 selection:text-brand-espresso">
       {/* 1. HERO */}
-      <section className="relative bg-brand-teal pt-32 pb-24 md:pt-48 md:pb-32 px-6 lg:px-12 overflow-hidden">
+      <section className="ground-dark relative bg-brand-teal pt-32 pb-20 md:pt-48 md:pb-32 px-5 sm:px-6 lg:px-12 overflow-hidden">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-center relative z-10">
             {/* Left Column: Typography & CTAs */}
@@ -36,19 +36,27 @@ export function Home() {
               variants={fadeUp}
               className="lg:col-span-6 flex flex-col justify-center"
             >
-              <span className="text-brand-ivory/70 uppercase tracking-widest text-[10px] md:text-xs font-semibold mb-6 md:mb-8 block">
+              <span className="text-brand-eucalyptus uppercase tracking-[0.18em] text-[12px] md:text-[13px] font-semibold mb-6 md:mb-8 block">
                 Premium Mobile Massage Therapy · Brooklyn, NY
               </span>
 
-              <h1 className="font-display text-[48px] sm:text-[56px] lg:text-[64px] leading-[1.05] text-brand-ivory mb-8">
-                Clinical Touch.
-                <br />
-                Human Understanding.
+              {/* The emotional line is the headline here. Mockup 1 is the warm,
+                  referral-and-Instagram direction, so it leads with feeling and
+                  lets the subline below carry the six-second test. The
+                  positioning line lives in the meta description and on About —
+                  never back in this hero. Mobile is capped at 34px. */}
+              <h1 className="font-display text-[34px] sm:text-[48px] lg:text-[64px] leading-[1.05] text-brand-ivory mb-5">
+                {BRAND_LINE}
               </h1>
 
-              <p className="text-lg md:text-[20px] font-light text-brand-ivory/80 leading-relaxed mb-12 max-w-xl">
-                Personalized mobile therapeutic bodywork centered on recovery, mobility, and nervous-system care.
-                Intentional hands-on treatment, delivered directly to the sanctuary of your own space.
+              {/* Sits tight under the H1 so the pair reads as one unit. */}
+              {/* Held to 18px on mobile per spec. Slightly tighter tracking plus
+                  the narrower mobile gutter above keeps it to three lines at
+                  360px — type size was preserved by finding width, not by
+                  shrinking. */}
+              <p className="text-[18px] md:text-[22px] lg:text-[24px] font-light tracking-[-0.014em] md:tracking-normal text-brand-ivory/90 leading-relaxed mb-10 max-w-xl">
+                Premium mobile massage therapy for recovery, mobility and nervous-system care, across Brooklyn and
+                greater NYC.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
@@ -60,10 +68,9 @@ export function Home() {
                 </Link>
                 <Link
                   to="/services"
-                  className="text-brand-ivory hover:text-white text-sm font-semibold tracking-wider uppercase transition-colors inline-flex items-center gap-2 group w-full sm:w-auto justify-center sm:justify-start"
+                  className="text-brand-ivory hover:text-white text-sm font-semibold tracking-wider uppercase underline decoration-brand-eucalyptus decoration-1 underline-offset-[6px] hover:decoration-brand-ivory transition-colors w-full sm:w-auto text-center sm:text-left"
                 >
-                  Explore Services{' '}
-                  <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
+                  Explore Services
                 </Link>
               </div>
             </motion.div>
@@ -76,17 +83,10 @@ export function Home() {
               className="lg:col-span-5 lg:col-start-8 relative mt-12 lg:mt-0"
             >
               <div className="relative transform lg:translate-x-8 lg:translate-y-12">
+                {/* The emotional line used to sit here as a closing note. It is
+                    the H1 now, so it must not appear twice in one viewport. */}
                 <SiteImage slot="home-hero" priority className="shadow-2xl shadow-black/20" />
-                <div className="absolute -bottom-16 -left-8 lg:-left-24 bg-brand-teal p-6 hidden md:block">
-                  <p className="font-display italic text-2xl lg:text-3xl text-brand-ivory">
-                    Healing that feels like coming home.
-                  </p>
-                </div>
               </div>
-              {/* Mobile version of the emotional line */}
-              <p className="font-display italic text-2xl text-brand-ivory mt-8 text-center md:hidden">
-                Healing that feels like coming home.
-              </p>
             </motion.div>
           </div>
         </div>
@@ -320,7 +320,7 @@ export function Home() {
       </section>
 
       {/* 6. ABOUT THE PRACTITIONER */}
-      <section className="bg-brand-espresso text-brand-ivory py-24 md:py-40 px-6 lg:px-12">
+      <section className="ground-dark bg-brand-espresso text-brand-ivory py-24 md:py-40 px-6 lg:px-12">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
             <motion.div
@@ -504,7 +504,7 @@ export function Home() {
       </section>
 
       {/* 10. CLOSING BOOKING BLOCK */}
-      <section className="bg-brand-teal text-brand-ivory py-32 md:py-48 px-6 lg:px-12 text-center relative overflow-hidden">
+      <section className="ground-dark bg-brand-teal text-brand-ivory py-32 md:py-48 px-6 lg:px-12 text-center relative overflow-hidden">
         {/* Subtle background element */}
         <div className="absolute inset-0 opacity-10 flex items-center justify-center pointer-events-none">
           <div className="w-[800px] h-[800px] border border-brand-ivory rounded-full"></div>

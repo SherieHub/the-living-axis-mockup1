@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
+import { PENDING_BUSINESS_EMAIL } from '../data/content';
 
 export function Footer() {
   return (
-    <footer className="bg-brand-espresso text-brand-ivory pt-24 pb-12 border-t border-brand-teal/20">
+    <footer className="ground-dark bg-brand-espresso text-brand-ivory pt-24 pb-12 border-t border-brand-teal/20">
       <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-24 mb-20">
           {/* Brand & Summary */}
@@ -118,7 +119,7 @@ export function Footer() {
                 {/* No business email is confirmed, so none is invented and
                     nothing is rendered as a live mailto link. */}
                 <li>
-                  <span className="text-sm text-brand-ivory/50 italic">Business email pending confirmation</span>
+                  <span className="text-sm text-brand-ivory/50 italic">{PENDING_BUSINESS_EMAIL}</span>
                 </li>
                 <li>
                   <a

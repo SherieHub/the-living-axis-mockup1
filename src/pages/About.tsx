@@ -208,7 +208,7 @@ export function About() {
       </section>
 
       {/* 5. Closing Booking Block */}
-      <section className="bg-brand-teal text-brand-ivory py-32 md:py-48 px-6 lg:px-12 text-center relative overflow-hidden">
+      <section className="ground-dark bg-brand-teal text-brand-ivory py-32 md:py-48 px-6 lg:px-12 text-center relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 flex items-center justify-center pointer-events-none">
           <div className="w-[600px] h-[600px] border border-brand-ivory rounded-full"></div>
         </div>

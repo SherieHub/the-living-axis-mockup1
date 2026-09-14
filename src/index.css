@@ -1,18 +1,20 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
-  --color-brand-teal: #12474D;
+  --color-brand-teal: #12474d;
   --color-brand-tealHover: #0c3135;
-  --color-brand-ivory: #F6F1E7;
-  --color-brand-espresso: #3B2C24;
-  --color-brand-eucalyptus: #8FA893;
+  --color-brand-ivory: #f6f1e7;
+  --color-brand-espresso: #3b2c24;
+  --color-brand-eucalyptus: #8fa893;
 
-  --font-display: "Cormorant Garamond", serif;
-  --font-body: "Inter", sans-serif;
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'Work Sans', sans-serif;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, ::before, ::after {
+  *,
+  ::before,
+  ::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -25,54 +27,84 @@
     @apply bg-brand-ivory text-brand-espresso font-body antialiased;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-display text-brand-teal;
   }
 
   /*
-   * TWO-TONE FOCUS RING — applied globally so no control can be missed.
+   * FOCUS RING.
    *
-   * An ivory halo sits immediately around the element with an espresso core
-   * outside it. One of the two tones always has contrast, whichever of the
-   * brand's five grounds the control sits on:
-   *   ivory        -> espresso core carries it
-   *   deep teal    -> ivory halo carries it
-   *   espresso     -> ivory halo carries it
-   *   eucalyptus   -> espresso core carries it
-   *   selected card (white / teal-tinted) -> espresso core carries it
+   * Drawn with `outline`, not `box-shadow`, for two concrete reasons:
+   *   1. An outline is NOT clipped by an `overflow: hidden` ancestor. The
+   *      service and add-on cards are overflow-hidden, so a shadow ring on a
+   *      control inside one is cut off exactly where it matters most.
+   *   2. An outline survives Windows High Contrast / forced-colors mode, where
+   *      box-shadow is dropped entirely.
    *
-   * The transparent outline is a no-op visually but keeps the ring present in
-   * Windows High Contrast / forced-colors mode, where box-shadow is dropped.
+   * Keyed to :focus-visible so a mouse click does not leave a ring behind,
+   * while every keyboard stop keeps one.
+   *
+   * A single outline can only be one colour, so the colour is chosen by the
+   * ground rather than stacked: espresso by default, and ivory inside sections
+   * that opt in with `.ground-dark`. The variable inherits, so every descendant
+   * of a dark section is covered without touching individual controls.
    */
+  :root {
+    --focus-ring-color: var(--color-brand-espresso);
+  }
+
+  /* Deep teal and espresso sections. Applied to the SECTION, never to a control
+     that merely happens to be teal — the ring must contrast with what surrounds
+     the control, which is the section behind it. */
+  .ground-dark {
+    --focus-ring-color: var(--color-brand-ivory);
+  }
+
   :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
-    outline: 2px solid transparent;
-    outline-offset: 3px;
-    box-shadow:
-      0 0 0 2px var(--color-brand-ivory),
-      0 0 0 5px var(--color-brand-espresso);
-    border-radius: 2px;
+    outline: 3px solid var(--focus-ring-color);
+    outline-offset: 2px;
   }
 
   /*
    * Service cards, add-on rows and the policy agreement use a visually hidden
    * <input> with a styled indicator, so the input's own ring would be invisible.
-   * Move the ring onto the label the viewer can actually see.
+   * Move the ring onto something the viewer can actually see.
+   *
+   * Two selectors, because an outline IS still clipped by an ancestor's
+   * `overflow: hidden` (what an outline survives that a shadow does not is
+   * forced-colors mode). The service cards are overflow-hidden for their
+   * expand/collapse animation, so a ring on the label inside would be cut off —
+   * it goes on the card element itself instead, which its own overflow cannot
+   * clip. Add-on rows and the policy agreement have no such wrapper and take the
+   * ring on the label directly.
    */
-  label:has(input.sr-only:focus-visible) {
-    outline: 2px solid transparent;
-    outline-offset: 3px;
-    box-shadow:
-      0 0 0 2px var(--color-brand-ivory),
-      0 0 0 5px var(--color-brand-espresso);
-    border-radius: 2px;
+  label:has(input.sr-only:focus-visible),
+  :has(> label > input.sr-only:focus-visible) {
+    outline: 3px solid var(--focus-ring-color);
+    outline-offset: 2px;
+  }
+
+  /* Forced-colors mode ignores author colours; use the system colour so the
+     indicator cannot be themed away. */
+  @media (forced-colors: active) {
+    :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible,
+    label:has(input.sr-only:focus-visible),
+    :has(> label > input.sr-only:focus-visible) {
+      outline: 2px solid CanvasText;
+      outline-offset: 2px;
+    }
   }
 
   /* The router moves focus to <h1> on navigation; that focus is programmatic,
      so it gets no ring — sighted mouse users should see nothing happen. */
-  h1[tabindex="-1"]:focus,
-  main[tabindex="-1"]:focus {
+  h1[tabindex='-1']:focus,
+  main[tabindex='-1']:focus {
     outline: none;
-    box-shadow: none;
   }
 }
 
@@ -105,6 +137,30 @@
      is painted by a sibling element sitting over the photo. */
   .photo-grade-wash {
     background: color-mix(in srgb, var(--color-brand-teal) 14%, transparent);
+    mix-blend-mode: multiply;
+  }
+
+  /*
+   * Brand-textured frame for the practitioner portrait slots.
+   *
+   * These two slots stay empty in BOTH photo modes — a stock face there would
+   * stand in for a specific real person. A blank rectangle reads as unfinished,
+   * though, so they get a deliberate treatment instead: a soft vertical wash
+   * from Warm Ivory down to Deep Teal at low opacity, plus a fine grain.
+   */
+  .practitioner-frame {
+    background-image: linear-gradient(
+      to bottom,
+      var(--color-brand-ivory) 0%,
+      color-mix(in srgb, var(--color-brand-eucalyptus) 26%, var(--color-brand-ivory)) 52%,
+      color-mix(in srgb, var(--color-brand-teal) 22%, var(--color-brand-ivory)) 100%
+    );
+  }
+
+  /* Fine grain, generated in-file so no asset request is needed. */
+  .grain-overlay {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    opacity: 0.14;
     mix-blend-mode: multiply;
   }
 

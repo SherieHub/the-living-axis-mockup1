@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { AlertCircle, Check, Info } from 'lucide-react';
-import { services, PROTOTYPE_CONTACT_NOTICE } from '../data/content';
+import { services, PENDING_BUSINESS_EMAIL, PROTOTYPE_CONTACT_NOTICE } from '../data/content';
 import { usePageMeta } from '../hooks/usePageMeta';
 import { useAnnounce } from '../components/Announcer';
 import { INSTAGRAM_URL } from '../data/schema';
@@ -91,7 +91,7 @@ export function Contact() {
                 <p className="text-xs uppercase tracking-widest font-semibold text-brand-teal mb-1">Email</p>
                 {/* No business email has been confirmed by the client. Nothing
                     is invented here, and nothing is rendered as a mailto link. */}
-                <p className="text-lg font-light text-brand-espresso/50 italic">Business email pending confirmation</p>
+                <p className="text-lg font-light text-brand-espresso/60 italic">{PENDING_BUSINESS_EMAIL}</p>
               </div>
               <div>
                 <p className="text-xs uppercase tracking-widest font-semibold text-brand-teal mb-1">Instagram</p>

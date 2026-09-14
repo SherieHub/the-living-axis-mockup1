@@ -6,6 +6,8 @@ import {
   services,
   specialtyServices,
   ADDRESS_PRIVACY_NOTICE,
+  BRAND_LINE,
+  CONFIRMATION_HEADLINE,
   DEPOSIT_REASON,
   DEPOSIT_TERMS,
   INTAKE_NOTICE,
@@ -173,8 +175,10 @@ export function Book() {
               <Check size={32} className="text-brand-teal" strokeWidth={1.5} />
             </div>
             <h1 className="font-display text-[44px] md:text-[56px] leading-tight text-brand-espresso mb-4">
-              Your request is recorded.
+              {CONFIRMATION_HEADLINE}
             </h1>
+
+            <p className="font-display italic text-2xl text-brand-teal mb-10">{BRAND_LINE}</p>
 
             {/* PERMANENT prototype notice. This build schedules nothing and
                 charges nothing — the screen must never suggest otherwise. */}

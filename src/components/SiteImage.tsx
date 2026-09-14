@@ -48,6 +48,10 @@ export function SiteImage({ slot, className, dark = false, priority = false }: S
 
   const chipSpec = `${spec.label} · ${spec.aspectRatio}`;
 
+  /* The practitioner slots are never photographic, so they get a deliberate
+     brand-textured treatment rather than a plain empty rectangle. */
+  const isPractitioner = !!spec.practitionerSlot;
+
   return (
     <div
       className={cn(
@@ -58,7 +62,8 @@ export function SiteImage({ slot, className, dark = false, priority = false }: S
            shot brief unreadable wherever a slot lands on the deep-teal or
            espresso sections — and makes the placeholder set look inconsistent
            from page to page. Photo slots keep the tint as a loading ground. */
-        showPhoto ? (dark ? 'bg-brand-teal/20' : 'bg-brand-eucalyptus/20') : 'bg-[#E6DFD0]',
+        showPhoto ? (dark ? 'bg-brand-teal/20' : 'bg-brand-eucalyptus/20') : !isPractitioner && 'bg-[#E6DFD0]',
+        isPractitioner && 'practitioner-frame',
         className
       )}
     >
@@ -76,6 +81,37 @@ export function SiteImage({ slot, className, dark = false, priority = false }: S
           />
           <div aria-hidden="true" className="photo-grade-wash pointer-events-none absolute inset-0" />
         </>
+      ) : isPractitioner ? (
+        /*
+         * Practitioner frame. Empty on purpose in BOTH photo modes — this is the
+         * one slot where a photographic stand-in would be dishonest, because it
+         * implies a specific person's identity. It is also the slot that most
+         * needs to look intentional, since it anchors About and the homepage
+         * About section, so it carries the brand wash, a grain, a hairline
+         * espresso border and the shot brief set inside.
+         */
+        <div
+          role="img"
+          aria-label={`Image placeholder. ${spec.label}, ${spec.aspectRatio}. Shot brief: ${spec.shotBrief}`}
+          className="absolute inset-0 flex items-center justify-center p-6 md:p-10"
+        >
+          <div aria-hidden="true" className="grain-overlay pointer-events-none absolute inset-0" />
+          <div aria-hidden="true" className="relative max-w-xs text-center">
+            {(spec.briefLines ?? [spec.shotBrief]).map((line, i) => (
+              <p
+                key={line}
+                className={cn(
+                  'font-body text-brand-espresso/70 leading-relaxed',
+                  i === 0
+                    ? 'text-[13px] uppercase tracking-[0.16em] font-semibold mb-3'
+                    : 'text-[13px] md:text-sm font-light'
+                )}
+              >
+                {line}
+              </p>
+            ))}
+          </div>
+        </div>
       ) : (
         /* Empty frame: the honest version. Carries the shot brief so the
            client's photographer can shoot straight from the mockup. */
@@ -98,7 +134,11 @@ export function SiteImage({ slot, className, dark = false, priority = false }: S
         aria-hidden="true"
         className={cn(
           'pointer-events-none absolute inset-0 rounded-sm border',
-          !showPhoto || !dark ? 'border-brand-teal/15' : 'border-brand-ivory/15'
+          isPractitioner
+            ? 'border-brand-espresso/30'
+            : !showPhoto || !dark
+              ? 'border-brand-teal/15'
+              : 'border-brand-ivory/15'
         )}
       />
 

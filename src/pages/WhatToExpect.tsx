@@ -133,7 +133,7 @@ export function WhatToExpect() {
       </section>
 
       {/* Closing Booking Block */}
-      <section className="bg-brand-teal text-brand-ivory py-32 px-6 lg:px-12 text-center">
+      <section className="ground-dark bg-brand-teal text-brand-ivory py-32 px-6 lg:px-12 text-center">
         <motion.div
           initial="hidden"
           whileInView="visible"
