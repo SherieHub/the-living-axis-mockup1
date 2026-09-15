@@ -394,7 +394,7 @@ export function Home() {
 
               <Link
                 to="/book"
-                className="bg-brand-ivory text-brand-espresso hover:bg-white px-8 py-4 rounded-md text-sm font-semibold tracking-wider uppercase transition-colors inline-block"
+                className="bg-brand-ivory border border-brand-espresso text-brand-espresso hover:bg-white px-8 py-4 rounded-md text-sm font-semibold tracking-wider uppercase transition-colors inline-block"
               >
                 Book Your Session
               </Link>
