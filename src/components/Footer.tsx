@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { PENDING_BUSINESS_EMAIL } from '../data/content';
+import { PENDING_BUSINESS_EMAIL, professionalStandards } from '../data/content';
 
 export function Footer() {
   return (
@@ -21,12 +21,20 @@ export function Footer() {
             {/* No credential, licence number or insurance claim is stated
                 anywhere until the client confirms one. These stay as visibly
                 labelled pending placeholders. */}
-            <div className="space-y-2">
-              <p className="text-sm text-brand-ivory/60 italic">
-                Professional credentials — pending client confirmation
-              </p>
-              <p className="text-sm text-brand-ivory/60 italic">Insurance details — pending client confirmation</p>
+            <div className="space-y-2 mb-6">
+              <p className="text-sm text-brand-ivory/60 italic">License &amp; insurance — pending client confirmation</p>
             </div>
+
+            {/* Footer as a trust surface — Build Note. Operating practices
+                that ARE confirmed, stated plainly alongside the placeholder
+                above rather than held back with it. */}
+            <ul className="space-y-1.5">
+              {professionalStandards.map((standard) => (
+                <li key={standard} className="text-sm text-brand-ivory/70">
+                  {standard}
+                </li>
+              ))}
+            </ul>
           </div>
 
           {/* Service Areas */}

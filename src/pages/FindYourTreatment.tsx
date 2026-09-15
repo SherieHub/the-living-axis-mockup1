@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { SiteImage } from '../components/SiteImage';
 import { usePageMeta } from '../hooks/usePageMeta';
+import { audiences, AUDIENCE_COMMON_THREAD } from '../data/content';
 
 export function FindYourTreatment() {
   usePageMeta(
@@ -11,54 +12,9 @@ export function FindYourTreatment() {
     'Choose between deep tissue, sports, restorative and prenatal massage for mobile sessions across Brooklyn and greater New York City.'
   );
 
-
-  const panels = [
-    {
-      id: 'professionals',
-      title: 'Busy Professionals & High-Stress Clients',
-      opening: "I carry all my stress in my neck and shoulders, and my mind won't shut off.",
-      explanation:
-        'Designed to address the physical compounding of long hours, prolonged sitting, and mental exhaustion. We focus on targeted nervous-system down-regulation, releasing accumulated neck and shoulder tension, easing low-back discomfort, and addressing tension-related headaches to facilitate a profound physical reset.',
-      supports: 'Nervous-system regulation, postural reset, headache relief',
-      link: '/services#therapeutic',
-    },
-    {
-      id: 'athletes',
-      title: 'Athletes, Gym-Goers & Active Adults',
-      opening: "My recovery isn't keeping up with my training, and I have specific restrictions.",
-      explanation:
-        'Clinical support for those demanding more from their bodies. Treatment emphasizes muscular recovery, restoring flexibility and mobility, addressing repetitive-use tension, and providing performance support or vital maintenance between heavy workouts or competitive events.',
-      supports: 'Muscular recovery, mobility restoration, athletic maintenance',
-      link: '/services#sports',
-    },
-    {
-      id: 'prenatal',
-      title: 'Prenatal & Postpartum Clients',
-      opening: 'My body is changing rapidly and I need safe, effective relief at home.',
-      explanation:
-        'Expert care adapted meticulously around your comfort and safe positioning. Treatment focuses on easing pregnancy-related muscular tension, improving circulation, facilitating deep relaxation, and providing structural support for critical postpartum physical recovery.',
-      supports: 'Pregnancy comfort, circulation, postpartum structural recovery',
-      link: '/services#prenatal',
-    },
-    {
-      id: 'older-adults',
-      title: 'Older Adults & Geriatric Clients',
-      opening: 'I want to maintain my mobility and manage chronic stiffness comfortably.',
-      explanation:
-        'Patient, highly adaptable care emphasizing gentle therapeutic touch. Sessions are customized for comfort, providing mobility support, improving circulation, reducing stiffness, and prioritizing overall relaxation and quality of life in a safe environment.',
-      supports: 'Joint mobility, circulation, chronic stiffness management',
-      link: '/services#therapeutic',
-    },
-    {
-      id: 'demanding-professions',
-      title: 'Physically Demanding Professions',
-      opening: 'My body is my livelihood, and the physical demands are breaking it down.',
-      explanation:
-        'Intensive therapy tailored for healthcare workers, first responders, drivers, tradespeople, hospitality professionals, and caregivers. We address profound muscular fatigue, overuse injuries, restricted movement, and the specific repetitive work demands that compromise your structural health.',
-      supports: 'Fatigue management, repetitive strain relief, career longevity',
-      link: '/services#therapeutic',
-    },
-  ];
+  // Shared with the homepage "Who This Is For" section — same titles and
+  // client wording, so the self-selection tool never contradicts itself.
+  const panels = audiences;
 
   return (
     <div className="bg-brand-ivory min-h-screen pt-32 pb-0">
@@ -94,15 +50,13 @@ export function FindYourTreatment() {
               <h2 className="font-display text-3xl md:text-4xl text-brand-teal mb-6 group-hover:text-brand-tealHover transition-colors">
                 {panel.title}
               </h2>
-              <p className="font-display italic text-xl md:text-2xl text-brand-espresso/80 mb-6">"{panel.opening}"</p>
+              <p className="font-display italic text-xl md:text-2xl text-brand-espresso/80 mb-6">
+                {panel.livedExperience}
+              </p>
 
               <div className="w-full h-px bg-brand-eucalyptus/40 mb-8 transition-colors group-hover:bg-brand-eucalyptus/80"></div>
 
-              <p className="text-brand-espresso/70 text-lg leading-relaxed mb-8 flex-grow">{panel.explanation}</p>
-
-              <p className="text-sm font-medium text-brand-espresso/50 uppercase tracking-wider mb-8">
-                May support: <span className="text-brand-espresso/80">{panel.supports}</span>
-              </p>
+              <p className="text-brand-espresso/70 text-lg leading-relaxed mb-8 flex-grow">{panel.description}</p>
 
               <Link
                 to={panel.link}
@@ -140,16 +94,13 @@ export function FindYourTreatment() {
               <h2 className="font-display text-2xl md:text-3xl text-brand-teal mb-6 group-hover:text-brand-tealHover transition-colors">
                 {panel.title}
               </h2>
-              <p className="font-display italic text-xl text-brand-espresso/80 mb-6 min-h-[60px]">"{panel.opening}"</p>
+              <p className="font-display italic text-xl text-brand-espresso/80 mb-6 min-h-[60px]">
+                {panel.livedExperience}
+              </p>
 
               <div className="w-full h-px bg-brand-eucalyptus/40 mb-6 transition-colors group-hover:bg-brand-eucalyptus/80"></div>
 
-              <p className="text-brand-espresso/70 text-base leading-relaxed mb-6 flex-grow">{panel.explanation}</p>
-
-              <p className="text-xs font-medium text-brand-espresso/50 uppercase tracking-wider mb-8">
-                May support: <br />
-                <span className="text-brand-espresso/80 mt-1 block">{panel.supports}</span>
-              </p>
+              <p className="text-brand-espresso/70 text-base leading-relaxed mb-6 flex-grow">{panel.description}</p>
 
               <Link
                 to={panel.link}
@@ -161,6 +112,17 @@ export function FindYourTreatment() {
             </motion.div>
           ))}
         </div>
+
+        {/* Section 03's closing paragraph, client's exact wording. */}
+        <motion.p
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-50px' }}
+          variants={fadeUp}
+          className="mt-24 md:mt-32 max-w-3xl font-display italic text-xl md:text-2xl text-brand-espresso/70 leading-relaxed border-t border-brand-teal/10 pt-12"
+        >
+          {AUDIENCE_COMMON_THREAD}
+        </motion.p>
       </section>
 
       {/* Closing Strip */}

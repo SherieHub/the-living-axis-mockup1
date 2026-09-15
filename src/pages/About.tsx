@@ -3,50 +3,21 @@ import { fadeUp } from '../lib/motion';
 import { Link } from 'react-router-dom';
 import { SiteImage } from '../components/SiteImage';
 import { usePageMeta } from '../hooks/usePageMeta';
+import {
+  aboutParagraphs,
+  aboutGoalStatement,
+  aboutClosingQuote,
+  aboutGroundedIn,
+  whatMakesDifferent,
+  professionalStandards,
+  BRAND_LINE_POSITIONING,
+} from '../data/content';
 
 export function About() {
   usePageMeta(
     'About the Practitioner | Brooklyn Mobile Massage | The Living Axis',
-    'The approach behind therapeutic and sports massage delivered in your own space across Brooklyn and greater New York City.'
+    `${BRAND_LINE_POSITIONING} The approach behind therapeutic and sports massage delivered in your own space across Brooklyn and greater New York City.`
   );
-
-
-  const groundedIn = [
-    'Therapeutic Skill',
-    'Intentional Touch',
-    'Mobility & Recovery Awareness',
-    'Nervous-System Support',
-    'Thoughtful Communication',
-    'Personalized Pressure & Technique',
-    "Respect for the Body's Response",
-  ];
-
-  const differentList = [
-    {
-      title: 'Individualized Care',
-      desc: 'Every session is uniquely constructed around what your tissues and nervous system require today, rather than a rote routine.',
-    },
-    {
-      title: 'Intentional Bodywork',
-      desc: 'Working with a clear purpose to achieve your therapeutic goals, whether that means deep structural change or profound relaxation.',
-    },
-    {
-      title: 'Thoughtful Professionalism',
-      desc: 'Discreet, respectful, and fully equipped mobile service that honors the sanctity of your personal space.',
-    },
-    {
-      title: 'A More Human Approach',
-      desc: 'Care that recognizes the complex connection between physical tension, mental stress, and overall well-being.',
-    },
-    {
-      title: 'Care That Fits Real Life',
-      desc: 'Removing the friction of travel and transit so that your recovery begins the moment our session ends.',
-    },
-    {
-      title: 'Quality Without the Distance',
-      desc: 'Clinical-grade therapeutic treatment delivered directly to your home without compromising on the standard of care.',
-    },
-  ];
 
   return (
     <div className="bg-brand-ivory min-h-screen pt-32 pb-0">
@@ -65,14 +36,21 @@ export function About() {
             <div className="bg-white/50 p-6 border border-brand-teal/10 space-y-4">
               <div>
                 <h4 className="text-xs font-semibold uppercase tracking-widest text-brand-teal mb-1">
-                  Professional Standing &amp; Insurance
+                  License &amp; Insurance
                 </h4>
                 <p className="text-sm italic text-brand-espresso/60">Client Information Pending</p>
               </div>
               <div className="w-full h-px bg-brand-teal/10"></div>
               <div>
                 <h4 className="text-xs font-semibold uppercase tracking-widest text-brand-teal mb-1">
-                  Training & Credentials
+                  Training &amp; Credentials
+                </h4>
+                <p className="text-sm italic text-brand-espresso/60">Client Information Pending</p>
+              </div>
+              <div className="w-full h-px bg-brand-teal/10"></div>
+              <div>
+                <h4 className="text-xs font-semibold uppercase tracking-widest text-brand-teal mb-1">
+                  Years in Practice
                 </h4>
                 <p className="text-sm italic text-brand-espresso/60">Client Information Pending</p>
               </div>
@@ -84,32 +62,38 @@ export function About() {
                 <p className="text-sm italic text-brand-espresso/60">Client Information Pending</p>
               </div>
             </div>
+
+            {/* Confirmed operating standards — Build Note, Section 06. These
+                are practices, not credentials, so they are stated as fact
+                alongside the pending items above rather than held back. */}
+            <div className="bg-white/50 p-6 border border-brand-teal/10">
+              <h4 className="text-xs font-semibold uppercase tracking-widest text-brand-teal mb-4">
+                Standards of Practice
+              </h4>
+              <ul className="space-y-2">
+                {professionalStandards.map((standard) => (
+                  <li key={standard} className="flex items-start gap-3 text-sm text-brand-espresso/80">
+                    <span aria-hidden="true" className="mt-2 h-1 w-1 rounded-full bg-brand-eucalyptus shrink-0" />
+                    {standard}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </motion.div>
 
           {/* Narrative Column */}
           <motion.div initial="hidden" animate="visible" variants={fadeUp} className="w-full lg:w-[55%] lg:pt-12">
             <span className="text-brand-teal uppercase tracking-widest text-xs font-semibold mb-6 block">
-              The Human Behind the Care
+              {BRAND_LINE_POSITIONING}
             </span>
             <h1 className="font-display text-[40px] md:text-[56px] lg:text-[64px] leading-[1.05] text-brand-espresso mb-10">
-              Therapeutic skill. Intentional care. A more human approach.
+              The human behind the care.
             </h1>
 
             <div className="space-y-6 text-lg md:text-xl text-brand-espresso/80 font-light leading-relaxed">
-              <p>
-                Massage should do more than help you escape for an hour. True therapeutic bodywork is about helping you
-                return to your body feeling more supported, deeply aware, and fundamentally at ease.
-              </p>
-              <p>
-                Every body moves, recovers, and responds differently based on its history, habits, and daily stressors.
-                Because of this, no two sessions should ever be identical. The care provided by The Living Axis is
-                entirely adaptable.
-              </p>
-              <p>
-                Pressure, pacing, technique, and focus are constantly adjusted based on open communication and exactly
-                how your tissues and nervous system respond in the moment. It is a dialogue between practitioner and
-                client, designed to foster genuine, lasting recovery.
-              </p>
+              {aboutParagraphs.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
             </div>
           </motion.div>
         </div>
@@ -132,7 +116,7 @@ export function About() {
 
             <div className="lg:col-span-7">
               <ul className="flex flex-col gap-6 md:gap-8">
-                {groundedIn.map((item, idx) => (
+                {aboutGroundedIn.map((item, idx) => (
                   <li key={idx} className="flex items-center gap-6 group">
                     <span className="text-brand-eucalyptus/50 font-display italic text-2xl md:text-3xl">
                       0{idx + 1}
@@ -158,8 +142,7 @@ export function About() {
         >
           <div className="w-12 h-px bg-brand-teal/30 mx-auto mb-12"></div>
           <p className="font-display italic text-[32px] md:text-[48px] leading-tight text-brand-teal">
-            "My goal is simple: I want you to leave our session more mobile, less tense, more settled, more connected to
-            your body, and genuinely cared for."
+            {aboutGoalStatement}
           </p>
           <div className="w-12 h-px bg-brand-teal/30 mx-auto mt-12"></div>
         </motion.div>
@@ -180,7 +163,7 @@ export function About() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16 mb-24">
-          {differentList.map((item, idx) => (
+          {whatMakesDifferent.map((item, idx) => (
             <motion.div
               key={idx}
               initial="hidden"
@@ -191,7 +174,7 @@ export function About() {
             >
               <div className="w-8 h-px bg-brand-eucalyptus mb-6"></div>
               <h3 className="font-display text-2xl text-brand-teal mb-4">{item.title}</h3>
-              <p className="text-brand-espresso/70 leading-relaxed text-lg font-light">{item.desc}</p>
+              <p className="text-brand-espresso/70 leading-relaxed text-lg font-light">{item.description}</p>
             </motion.div>
           ))}
         </div>
@@ -208,9 +191,10 @@ export function About() {
         </div>
 
         <div className="relative z-10 max-w-3xl mx-auto">
-          <h2 className="font-display italic text-[40px] md:text-[64px] leading-tight mb-12">
-            Healing that feels like coming home.
-          </h2>
+          {/* Section 05's closing pull-quote, client's exact wording — combines
+              the positioning framing with the emotional brand line as its own
+              final sentence, immediately ahead of the booking action. */}
+          <p className="font-display italic text-[26px] md:text-[36px] leading-relaxed mb-12">{aboutClosingQuote}</p>
           <Link
             to="/book"
             className="bg-brand-ivory text-brand-teal hover:bg-white px-12 py-5 rounded-md text-sm font-semibold tracking-wider uppercase transition-colors inline-block"

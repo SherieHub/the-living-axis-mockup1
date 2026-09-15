@@ -7,6 +7,7 @@ import {
   services,
   specialtyServices,
   ADDRESS_PRIVACY_NOTICE,
+  BOOKING_STEP_LINE,
   BRAND_LINE,
   CONFIRMATION_HEADLINE,
   DEPOSIT_REASON,
@@ -403,6 +404,7 @@ export function Book() {
                 Step 2 of {TOTAL_STEPS} · {STEP_TITLES[2]}
               </span>
               <h1 className="font-display text-[40px] leading-tight text-brand-espresso mb-4">When works for you?</h1>
+              <p className="text-lg text-brand-espresso/70 font-light leading-relaxed">{BOOKING_STEP_LINE}</p>
             </div>
 
             <div className="bg-white border border-brand-teal/20 p-5 rounded-sm mb-10 flex justify-between items-center gap-4">

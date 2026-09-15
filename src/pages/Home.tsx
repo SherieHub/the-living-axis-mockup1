@@ -3,66 +3,32 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { fadeUp } from '../lib/motion';
 import { useState } from 'react';
 import { SiteImage } from '../components/SiteImage';
-import { services, confirmedFaqs, timelineSteps, BRAND_LINE } from '../data/content';
+import {
+  services,
+  confirmedFaqs,
+  timelineSteps,
+  BRAND_LINE,
+  audiences,
+  AUDIENCE_COMMON_THREAD,
+  TRAVEL_INCLUSION_HEADLINE,
+  TRAVEL_INCLUSION_SUB,
+} from '../data/content';
 import { ArrowRight, Plus, Minus } from 'lucide-react';
 import { usePageMeta } from '../hooks/usePageMeta';
 import { localBusinessSchema } from '../data/schema';
-
-/*
- * Audience cards. Two large (top row) then three small (bottom row).
- * `hook` is the two-line opener used on the large cards; `hookShort` is the
- * single-line opener used on the small ones.
- */
-const audienceCards = [
-  {
-    audience: 'Busy Professionals & High-Stress Clients',
-    hook: '“I carry all my stress in my neck and shoulders, and I don’t have time to travel across the city.”',
-    hookShort: '“I carry all my stress in my neck and shoulders.”',
-    need: 'Nervous-system down-regulation and deep fascial release, undoing what desk posture and mental load compound.',
-    link: '/find-your-treatment',
-  },
-  {
-    audience: 'Athletes, Gym-Goers & Active Adults',
-    hook: '“My training is plateauing because my recovery isn’t keeping up, and I have tightness I can’t stretch out.”',
-    hookShort: '“My recovery isn’t keeping up with my training.”',
-    need: 'Mobility work, trigger point release and performance restoration, matched to your current training block.',
-    link: '/services#sports',
-  },
-  {
-    audience: 'Prenatal & Postpartum Clients',
-    hook: '“My body is changing rapidly and I need safe, effective relief without leaving the house.”',
-    hookShort: '“My body is changing and everything aches.”',
-    need: 'Positioned structural support for pregnancy-related tension and postpartum recovery.',
-    link: '/services#prenatal',
-  },
-  {
-    audience: 'Older Adults',
-    hook: '“I want to maintain my mobility and manage stiffness comfortably at home.”',
-    hookShort: '“I want to keep my mobility, comfortably.”',
-    need: 'Gentle, focused work on joint mobility, circulation and tissue health, at your pace.',
-    link: '/find-your-treatment',
-  },
-  {
-    audience: 'Physically Demanding Work',
-    hook: '“I work with my hands and stand all day. My body is my livelihood.”',
-    hookShort: '“My body is my livelihood, and it’s wearing down.”',
-    need: 'Restorative therapy for repetitive strain, structural balance and career longevity.',
-    link: '/find-your-treatment',
-  },
-];
 
 export function Home() {
   // LocalBusiness schema is emitted once, from the homepage.
   usePageMeta(
     'Mobile Massage Therapy in Brooklyn, NY | The Living Axis',
-    'Clinical touch, human understanding. Deep tissue, sports, restorative and prenatal massage brought to your own space across Brooklyn and greater New York City.',
+    'Clinical Touch. Human Understanding. Deep tissue, sports, restorative and prenatal massage brought to your own space across Brooklyn and greater New York City.',
     localBusinessSchema
   );
 
 
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
-  // Four on the homepage; the View All link carries the rest.
-  const homeFaqs = confirmedFaqs.slice(0, 4);
+  // Top six on the homepage, per Build Note — the View All link carries the rest.
+  const homeFaqs = confirmedFaqs.slice(0, 6);
 
     return (
     <div className="bg-brand-ivory min-h-screen selection:bg-brand-teal/20 selection:text-brand-espresso">
@@ -87,7 +53,7 @@ export function Home() {
                   positioning line lives in the meta description and on About —
                   never back in this hero. Mobile is capped at 34px. */}
               <h1 className="font-display text-[34px] sm:text-[48px] lg:text-[64px] leading-[1.05] text-brand-ivory mb-5">
-                Healing that feels like coming home.
+                {BRAND_LINE}
               </h1>
 
               {/* Sits tight under the H1 so the pair reads as one unit. */}
@@ -113,6 +79,15 @@ export function Home() {
                   Explore Services
                 </Link>
               </div>
+
+              {/* Build Note — practical hero formula: headline, subline, primary
+                  button, and one line of trust signal. License/insurance are not
+                  yet confirmed for display, so this line states only what is
+                  confirmed rather than asserting credentials ahead of the client's
+                  own confirmation. */}
+              <p className="mt-8 text-brand-ivory/70 text-sm tracking-wide">
+                Mobile care, by appointment · Brooklyn &amp; greater NYC
+              </p>
             </motion.div>
 
             {/* Right Column: Editorial Image & Emotional Line */}
@@ -174,11 +149,11 @@ export function Home() {
           lives only in the FAQ and Policies sections.
         */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-12 md:gap-y-16">
-          {audienceCards.map((card, idx) => {
+          {audiences.map((audience, idx) => {
             const isLarge = idx < 2;
             return (
               <motion.div
-                key={card.audience}
+                key={audience.id}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: '-80px' }}
@@ -186,7 +161,7 @@ export function Home() {
                 className={isLarge ? 'md:col-span-6' : 'md:col-span-4'}
               >
                 <Link
-                  to={card.link}
+                  to={audience.link}
                   className="group flex h-full min-h-[44px] flex-col rounded-sm py-1"
                 >
                   <h3
@@ -196,21 +171,23 @@ export function Home() {
                         : 'font-display text-2xl lg:text-[26px] leading-[1.12] text-brand-teal mb-3'
                     }
                   >
-                    {card.audience}
+                    {audience.title}
                   </h3>
 
-                  {/* The lived-experience opener, in Work Sans. Two lines on the
-                      large cards, one on the small ones. */}
+                  {/* Build Note: "write the feeling before the category" — one
+                      line of lived, concrete experience ahead of the client's
+                      own description below. Never presented as a client quote. */}
                   <p
                     className={
                       isLarge
-                        ? 'text-brand-espresso/80 text-[17px] leading-relaxed mb-5'
-                        : 'text-brand-espresso/80 text-[15px] leading-relaxed mb-4'
+                        ? 'font-display italic text-brand-espresso/80 text-[19px] leading-relaxed mb-5'
+                        : 'font-display italic text-brand-espresso/80 text-lg leading-relaxed mb-4'
                     }
                   >
-                    {isLarge ? card.hook : card.hookShort}
+                    {audience.livedExperience}
                   </p>
 
+                  {/* Client's own Section 03 description, unedited. */}
                   <p
                     className={
                       isLarge
@@ -218,7 +195,7 @@ export function Home() {
                         : 'text-brand-espresso/60 text-sm leading-relaxed mb-5'
                     }
                   >
-                    {card.need}
+                    {audience.description}
                   </p>
 
                   {/* Single hairline eucalyptus rule. On desktop hover it
@@ -240,6 +217,17 @@ export function Home() {
             );
           })}
         </div>
+
+        {/* Section 03's closing paragraph, client's exact wording. */}
+        <motion.p
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-50px' }}
+          variants={fadeUp}
+          className="mt-16 md:mt-20 max-w-3xl font-display italic text-xl md:text-2xl text-brand-espresso/70 leading-relaxed border-t border-brand-teal/10 pt-12"
+        >
+          {AUDIENCE_COMMON_THREAD}
+        </motion.p>
       </section>
 
       {/* 4. SERVICES & PRICING PREVIEW */}
@@ -263,7 +251,7 @@ export function Home() {
               </h2>
             </div>
             <p className="text-brand-espresso/70 max-w-sm text-base italic">
-              Travel and full setup are included in every rate within the service area.
+              {TRAVEL_INCLUSION_HEADLINE} {TRAVEL_INCLUSION_SUB}
             </p>
           </motion.div>
 
@@ -292,7 +280,7 @@ export function Home() {
                 </div>
                 <div className="flex flex-col gap-4">
                   <Link
-                    to={`/services#${service.id.split('-')[0]}`}
+                    to={`/services#${service.id}`}
                     className="text-center py-3 border border-brand-teal/20 text-brand-teal hover:border-brand-teal text-sm font-semibold uppercase tracking-widest transition-colors"
                   >
                     View Details
@@ -480,10 +468,17 @@ export function Home() {
               <li>Select NJ</li>
             </ul>
 
-            <p className="text-lg text-brand-espresso/70 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg text-brand-espresso/70 max-w-2xl mx-auto leading-relaxed mb-10">
               Brooklyn is the primary service area, with standard travel and setup included. Travel to other boroughs,
               Long Island, and select New Jersey locations is arranged by request and may require a custom quote.
             </p>
+
+            <Link
+              to="/service-areas"
+              className="inline-block text-sm uppercase tracking-widest font-semibold text-brand-teal hover:text-brand-tealHover transition-colors border-b border-brand-teal hover:border-brand-tealHover pb-1"
+            >
+              See Service Areas
+            </Link>
           </motion.div>
         </div>
       </section>
@@ -549,9 +544,7 @@ export function Home() {
         </div>
 
         <div className="relative z-10 max-w-3xl mx-auto">
-          <h2 className="font-display italic text-[40px] md:text-[64px] leading-tight mb-8">
-            Healing that feels like coming home.
-          </h2>
+          <h2 className="font-display italic text-[40px] md:text-[64px] leading-tight mb-8">{BRAND_LINE}</h2>
           <p className="text-lg md:text-xl text-brand-ivory/80 font-light leading-relaxed mb-12 max-w-xl mx-auto">
             Reserve your session today and experience therapeutic luxury seamlessly integrated into your own space.
           </p>

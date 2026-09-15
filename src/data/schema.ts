@@ -1,4 +1,4 @@
-import { confirmedFaqs } from './content';
+import { confirmedFaqs, buildNoteFaqs } from './content';
 
 /**
  * The live domain, supplied at build time via VITE_SITE_URL.
@@ -62,15 +62,17 @@ export const localBusinessSchema = {
 /**
  * FAQPage structured data.
  *
- * Built ONLY from the nine confirmed question/answer pairs. Questions still
- * marked "Answer pending client confirmation" have no answer to mark up and are
- * excluded — publishing them would invite search engines to surface an answer
- * the client never gave.
+ * Built from the nine client-confirmed question/answer pairs plus the four
+ * answers sourced from the brief's own Build Note suggested copy (see
+ * `buildNoteFaqs` in content.ts). Questions still marked "Answer pending
+ * client confirmation" have no answer to mark up and are excluded —
+ * publishing them would invite search engines to surface an answer the
+ * client never gave.
  */
 export const faqPageSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: confirmedFaqs.map((faq) => ({
+  mainEntity: [...confirmedFaqs, ...buildNoteFaqs].map((faq) => ({
     '@type': 'Question',
     name: faq.question,
     acceptedAnswer: {

@@ -2,7 +2,9 @@
 
 @theme {
   --color-brand-teal: #12474d;
-  --color-brand-tealHover: #0c3135;
+  /* Build Note: a slightly brighter teal for hover/focus states, so buttons
+     respond visibly without introducing a fifth brand color. */
+  --color-brand-tealHover: #1c6169;
   --color-brand-ivory: #f6f1e7;
   --color-brand-espresso: #3b2c24;
   --color-brand-eucalyptus: #8fa893;

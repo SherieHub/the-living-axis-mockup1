@@ -3,6 +3,7 @@ import { fadeUp } from '../lib/motion';
 import { Link } from 'react-router-dom';
 import { usePageMeta } from '../hooks/usePageMeta';
 import { SiteImage } from '../components/SiteImage';
+import { NOTHING_TO_PREPARE_LINE } from '../data/content';
 
 export function WhatToExpect() {
   usePageMeta(
@@ -10,27 +11,33 @@ export function WhatToExpect() {
     'How a mobile massage session runs, from booking to setup to treatment, anywhere in Brooklyn and greater New York City.'
   );
 
-
+  /*
+   * The brief's own "What to Expect" Build Note suggested four-step copy —
+   * including the specific setup duration and space footprint, which the
+   * brief supplies directly as customer-facing wording. The shorter version
+   * lives in src/data/content.ts as `timelineSteps` for the homepage; this is
+   * the fuller version for the dedicated page.
+   */
   const steps = [
     {
       num: '01',
       title: 'Book',
-      desc: 'Choose your service, duration, and a time that works. A short optional intake comes just before you confirm.',
+      desc: 'Choose your service, duration, and a time that works. A short, optional intake comes just before you confirm.',
     },
     {
       num: '02',
       title: 'Brief Intake',
-      desc: 'A short, optional intake during booking captures your goals, pressure preference, and anything to be aware of. It is brief on purpose — anything further is discussed before we begin.',
+      desc: 'A short form on your goals, sensitivities, and any health considerations. It is brief on purpose — anything further is discussed before we begin.',
     },
     {
       num: '03',
       title: 'Arrival & Setup',
-      desc: 'Professional massage equipment, fresh linens, and all necessary supplies are brought to your appointment. Setup time and space requirements are pending client confirmation.',
+      desc: 'A professional table, fresh linens, and all necessary supplies are brought in. Setup takes roughly ten minutes and needs about the footprint of a sofa.',
     },
     {
       num: '04',
       title: 'Your Session',
-      desc: 'Pressure, pacing, technique, focus areas, and positioning are adapted around your ongoing communication, comfort, and how your body responds.',
+      desc: 'Pressure and focus are adjusted throughout, based on your ongoing comfort. Afterward, the space is left exactly as it was found.',
     },
   ];
 
@@ -111,8 +118,8 @@ export function WhatToExpect() {
                 You do not need to provide massage equipment, linens, oils, or any treatment supplies. Everything
                 required for a professional clinical session is brought to you.
               </p>
-              <p className="text-sm italic text-brand-espresso/60">
-                [Additional spatial or operational requirements pending client confirmation]
+              <p className="text-lg md:text-xl text-brand-espresso/80 font-light leading-relaxed">
+                {NOTHING_TO_PREPARE_LINE}
               </p>
             </div>
 

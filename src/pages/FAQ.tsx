@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Plus, Minus } from 'lucide-react';
 import {
   confirmedFaqs,
+  buildNoteFaqs,
   pendingFaqs,
   pendingPolicies,
   PENDING_LABEL,
@@ -26,6 +27,10 @@ export function FAQ() {
 
 
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+
+  // Client-confirmed answers plus the answers sourced from the brief's own
+  // Build Note suggested copy — see content.ts for the provenance of each.
+  const answeredFaqs = [...confirmedFaqs, ...buildNoteFaqs];
 
   // Single source of truth — the Policies block and the FAQ answer are the
   // same string, so they can never drift apart.
@@ -62,7 +67,7 @@ export function FAQ() {
           variants={fadeUp}
           className="border-t border-brand-teal/20"
         >
-          {confirmedFaqs.map((faq, index) => (
+          {answeredFaqs.map((faq, index) => (
             <div key={index} className="border-b border-brand-teal/20">
               <button
                 onClick={() => toggleFaq(index)}

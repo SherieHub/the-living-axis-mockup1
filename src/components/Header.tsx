@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
+import { BRAND_LINE_POSITIONING } from '../data/content';
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -25,9 +26,14 @@ export function Header() {
   // If on home page and not scrolled, use transparent/light header. Otherwise use solid/dark header.
   const useTransparentHeader = isHomePage && !isScrolled && !mobileMenuOpen;
 
+  /*
+   * Build Note — navigation recommendation: top nav capped at five items so
+   * nothing competes with the booking button. "Find Your Treatment" stays
+   * reachable from the homepage self-selection cards and the footer, and
+   * Contact lives in the footer rather than here, per the same note.
+   */
   const navLinks = [
     { name: 'Services', path: '/services' },
-    { name: 'Find Treatment', path: '/find-your-treatment' },
     { name: 'About', path: '/about' },
     { name: 'What to Expect', path: '/what-to-expect' },
     { name: 'Service Areas', path: '/service-areas' },
@@ -43,7 +49,18 @@ export function Header() {
     >
       <div className="max-w-[1440px] mx-auto px-6 lg:px-12 h-20 md:h-24 flex items-center justify-between">
         <Link to="/" className="z-50 relative rounded-sm">
-          <span className="font-display font-medium text-2xl tracking-wide uppercase">The Living Axis</span>
+          <span className="font-display font-medium text-2xl tracking-wide uppercase block">The Living Axis</span>
+          {/* Positioning line — Build Note: belongs in the header, meta
+              description, and About, wherever the brand is explained to
+              someone new. Desktop only; the mobile header stays uncluttered. */}
+          <span
+            className={cn(
+              'hidden md:block text-[11px] tracking-[0.08em] font-light mt-0.5',
+              useTransparentHeader ? 'text-brand-ivory/70' : 'text-brand-espresso/55'
+            )}
+          >
+            {BRAND_LINE_POSITIONING}
+          </span>
         </Link>
 
         {/* Desktop Nav */}
@@ -73,14 +90,32 @@ export function Header() {
           </Link>
         </nav>
 
-        {/* Mobile Menu Toggle */}
-        <button
-          className="md:hidden z-50 p-2 rounded-md"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-        >
-          {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
+        {/* Mobile: persistent Book action + menu toggle, both in the collapsed
+            header. Build Note: the booking button should remain visible in
+            the collapsed header rather than hiding inside the menu — it
+            should never require scrolling or opening the menu to find. */}
+        <div className="md:hidden flex items-center gap-2 z-50">
+          {!mobileMenuOpen && (
+            <Link
+              to="/book"
+              className={cn(
+                'min-h-[44px] px-4 flex items-center justify-center rounded-md text-xs font-semibold tracking-wider uppercase transition-colors',
+                useTransparentHeader
+                  ? 'bg-brand-ivory text-brand-teal hover:bg-white'
+                  : 'bg-brand-teal text-brand-ivory hover:bg-brand-tealHover'
+              )}
+            >
+              Book
+            </Link>
+          )}
+          <button
+            className="p-2 rounded-md"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+          >
+            {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Nav Overlay */}

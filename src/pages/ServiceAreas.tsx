@@ -27,8 +27,8 @@ export function ServiceAreas() {
             Greater NYC by arrangement.
           </h1>
           <p className="text-xl text-brand-espresso/70 font-light leading-relaxed max-w-2xl">
-            The Living Axis is exclusively a mobile massage and wellness service. Appointments take place in the comfort
-            of your home, hotel, or appropriate private space. We do not operate a permanent public storefront.
+            The Living Axis is primarily a mobile massage service, so clients are typically seen in their own homes,
+            hotels, or other appropriate private spaces rather than at a public storefront.
           </p>
         </motion.div>
       </section>
@@ -110,14 +110,10 @@ export function ServiceAreas() {
               variants={fadeUp}
             >
               <h3 className="font-display text-2xl text-brand-espresso/70 mb-6">Optional Private Space</h3>
-              <p className="text-brand-espresso/60 text-sm leading-relaxed mb-4">
-                We recognize that receiving massage at home isn't always possible. When a client cannot or prefers not
-                to receive care in their own space, a private treatment space may occasionally be arranged in advance,
-                subject to availability.
-              </p>
               <p className="text-brand-espresso/60 text-sm leading-relaxed">
-                Please note that the total service cost will increase accordingly to cover the rental of the clinical
-                space.
+                If a client is unable or prefers not to receive the service in their own space, a private treatment
+                space may be arranged in advance when available. Because this would involve securing an additional
+                location, the total service cost would increase accordingly.
               </p>
             </motion.div>
           </div>

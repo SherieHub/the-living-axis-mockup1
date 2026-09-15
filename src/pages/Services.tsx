@@ -3,7 +3,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { fadeUp } from '../lib/motion';
 import { Link } from 'react-router-dom';
 import { Plus, Minus } from 'lucide-react';
-import { services, specialtyServices, DEPOSIT_REASON, DEPOSIT_TERMS } from '../data/content';
+import {
+  services,
+  specialtyServices,
+  DEPOSIT_REASON,
+  DEPOSIT_TERMS,
+  TRAVEL_INCLUSION_HEADLINE,
+  TRAVEL_INCLUSION_SUB,
+} from '../data/content';
 import { SiteImage } from '../components/SiteImage';
 import { usePageMeta } from '../hooks/usePageMeta';
 
@@ -53,8 +60,22 @@ export function Services() {
             Every session is adapted to the body in front of me. Start with what sounds closest — we can adjust from
             there.
           </p>
-          <p className="text-sm italic text-brand-espresso/50">
-            Standard travel and professional mobile setup are included within the normal service area.
+        </motion.div>
+      </section>
+
+      {/* Travel inclusion — headline-level, not a footnote. Build Note: hidden
+          travel fees are the category's most common complaint. */}
+      <section className="px-6 lg:px-12 max-w-[1440px] mx-auto mb-20 md:mb-28">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-50px' }}
+          variants={fadeUp}
+          className="bg-brand-teal/10 border border-brand-eucalyptus/40 rounded-sm px-6 py-6 md:px-10 md:py-8 flex flex-col md:flex-row md:items-center gap-3 md:gap-6"
+        >
+          <span aria-hidden="true" className="h-px w-10 bg-brand-eucalyptus shrink-0 hidden md:block" />
+          <p className="text-xl md:text-2xl font-display text-brand-teal leading-snug">
+            {TRAVEL_INCLUSION_HEADLINE} <span className="text-brand-espresso/70 italic">{TRAVEL_INCLUSION_SUB}</span>
           </p>
         </motion.div>
       </section>
@@ -117,18 +138,22 @@ export function Services() {
                           className="overflow-hidden"
                         >
                           <div className="pb-8 space-y-6">
-                            <div>
-                              <h4 className="text-xs uppercase tracking-widest font-semibold text-brand-espresso/50 mb-2">
-                                Ideal For
-                              </h4>
-                              <p className="text-brand-espresso/80 leading-relaxed">{service.idealFor}</p>
-                            </div>
-                            <div>
-                              <h4 className="text-xs uppercase tracking-widest font-semibold text-brand-espresso/50 mb-2">
-                                Session May Include
-                              </h4>
-                              <p className="text-brand-espresso/80 leading-relaxed">{service.mayInclude}</p>
-                            </div>
+                            {service.idealFor && (
+                              <div>
+                                <h4 className="text-xs uppercase tracking-widest font-semibold text-brand-espresso/50 mb-2">
+                                  Ideal For
+                                </h4>
+                                <p className="text-brand-espresso/80 leading-relaxed">{service.idealFor}</p>
+                              </div>
+                            )}
+                            {service.mayInclude && (
+                              <div>
+                                <h4 className="text-xs uppercase tracking-widest font-semibold text-brand-espresso/50 mb-2">
+                                  {service.mayIncludeLabel ?? 'Session May Include'}
+                                </h4>
+                                <p className="text-brand-espresso/80 leading-relaxed">{service.mayInclude}</p>
+                              </div>
+                            )}
                           </div>
                         </motion.div>
                       )}

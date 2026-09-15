@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { fadeUp } from '../lib/motion';
 import { Link } from 'react-router-dom';
 import { AlertCircle, Check, Info } from 'lucide-react';
-import { services, PENDING_BUSINESS_EMAIL, PROTOTYPE_CONTACT_NOTICE } from '../data/content';
+import { services, PENDING_BUSINESS_EMAIL, PROTOTYPE_CONTACT_NOTICE, FORM_SUBMITTED_LINE } from '../data/content';
 import { usePageMeta } from '../hooks/usePageMeta';
 import { useAnnounce } from '../components/Announcer';
 import { INSTAGRAM_URL } from '../data/schema';
@@ -52,7 +52,7 @@ export function Contact() {
     }
 
     setIsSubmitted(true);
-    announce('Thank you. Your message has been received.');
+    announce(FORM_SUBMITTED_LINE);
   };
 
   /* Errors always carry an icon and text — never a border colour alone. */
@@ -300,9 +300,9 @@ export function Contact() {
                     <Check size={32} className="text-brand-teal" strokeWidth={1.5} />
                   </div>
                   <h2 className="font-display text-4xl text-brand-espresso mb-4">Thank you.</h2>
-                  {/* No reply window is promised — the client has not confirmed one. */}
+                  {/* Section 21 Microcopy Library, exact suggested copy. */}
                   <p className="text-lg text-brand-espresso/70 font-light leading-relaxed max-w-sm mx-auto mb-10">
-                    Your message has been received.
+                    {FORM_SUBMITTED_LINE}
                   </p>
 
                   <div className="border border-brand-espresso/25 bg-brand-espresso/5 px-5 py-4 rounded-sm text-left flex gap-3 max-w-sm">
