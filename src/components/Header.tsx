@@ -2,12 +2,15 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { cn } from '../lib/utils';
+import lightLogo from '../assets/light version.png';
+import darkLogo from '../assets/dark version.png';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BRAND_LINE_POSITIONING } from '../data/content';
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   const location = useLocation();
   const isHomePage = location.pathname === '/';
 
@@ -15,23 +18,22 @@ export function Header() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [location]);
 
-  // If on home page and not scrolled, use transparent/light header. Otherwise use solid/dark header.
-  const useTransparentHeader = isHomePage && !isScrolled && !mobileMenuOpen;
+  // Transparent header only on homepage before scrolling
+  const useTransparentHeader =
+    isHomePage && !isScrolled && !mobileMenuOpen;
 
-  /*
-   * Build Note — navigation recommendation: top nav capped at five items so
-   * nothing competes with the booking button. "Find Your Treatment" stays
-   * reachable from the homepage self-selection cards and the footer, and
-   * Contact lives in the footer rather than here, per the same note.
-   */
   const navLinks = [
     { name: 'Services', path: '/services' },
     { name: 'About', path: '/about' },
@@ -44,26 +46,96 @@ export function Header() {
     <header
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-colors duration-300',
-        useTransparentHeader ? 'bg-transparent text-brand-ivory' : 'bg-brand-ivory text-brand-espresso shadow-sm'
+        useTransparentHeader
+          ? 'bg-transparent text-brand-ivory'
+          : 'bg-brand-ivory text-brand-espresso shadow-sm'
       )}
     >
       <div className="max-w-[1440px] mx-auto px-6 lg:px-12 h-20 md:h-24 flex items-center justify-between">
-        <Link to="/" className="z-50 relative rounded-sm">
-          <span className="font-display font-medium text-2xl tracking-wide uppercase block">The Living Axis</span>
-          {/* Positioning line — Build Note: belongs in the header, meta
-              description, and About, wherever the brand is explained to
-              someone new. Desktop only; the mobile header stays uncluttered. */}
-          <span
-            className={cn(
-              'hidden md:block text-[11px] tracking-[0.08em] font-light mt-0.5',
-              useTransparentHeader ? 'text-brand-ivory/70' : 'text-brand-espresso/55'
-            )}
-          >
-            {BRAND_LINE_POSITIONING}
-          </span>
+
+        {/* ======================================================
+            BRAND AREA
+            Column 1 = Logo
+            Column 2 = Stacked brand name + positioning line
+        ====================================================== */}
+        <Link
+          to="/"
+          aria-label="The Living Axis home"
+          className="
+            z-50
+            relative
+            rounded-sm
+            grid
+            grid-cols-[auto_1fr]
+            items-center
+            gap-3
+            shrink-0
+          "
+        >
+          {/* COLUMN 1 — LOGO */}
+          <div className="flex items-center justify-center shrink-0">
+            <img
+              src={useTransparentHeader ? lightLogo : darkLogo}
+              alt="The Living Axis logo"
+              className="
+                h-10
+                sm:h-11
+                md:h-12
+                lg:h-14
+                w-auto
+                object-contain
+                transition-all
+                duration-300
+              "
+            />
+          </div>
+
+          {/* COLUMN 2 — STACKED TEXTS */}
+          <div className="flex flex-col justify-center min-w-0">
+
+            {/* Brand name */}
+            <span
+              className="
+                font-display
+                font-medium
+                text-lg
+                sm:text-xl
+                md:text-2xl
+                tracking-wide
+                uppercase
+                leading-none
+                whitespace-nowrap
+              "
+            >
+              The Living Axis
+            </span>
+
+            {/* Positioning line */}
+            <span
+              className={cn(
+                `
+                  hidden
+                  md:block
+                  text-[11px]
+                  tracking-[0.08em]
+                  font-light
+                  mt-1.5
+                  leading-tight
+                  whitespace-nowrap
+                `,
+                useTransparentHeader
+                  ? 'text-brand-ivory/70'
+                  : 'text-brand-espresso/55'
+              )}
+            >
+              {BRAND_LINE_POSITIONING}
+            </span>
+          </div>
         </Link>
 
-        {/* Desktop Nav */}
+        {/* ======================================================
+            DESKTOP NAV
+        ====================================================== */}
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <Link
@@ -71,12 +143,15 @@ export function Header() {
               to={link.path}
               className={cn(
                 'text-sm font-medium tracking-wide hover:text-brand-tealHover transition-colors rounded-sm px-1',
-                useTransparentHeader ? 'text-brand-ivory' : 'text-brand-espresso'
+                useTransparentHeader
+                  ? 'text-brand-ivory'
+                  : 'text-brand-espresso'
               )}
             >
               {link.name}
             </Link>
           ))}
+
           <Link
             to="/book"
             className={cn(
@@ -90,10 +165,9 @@ export function Header() {
           </Link>
         </nav>
 
-        {/* Mobile: persistent Book action + menu toggle, both in the collapsed
-            header. Build Note: the booking button should remain visible in
-            the collapsed header rather than hiding inside the menu — it
-            should never require scrolling or opening the menu to find. */}
+        {/* ======================================================
+            MOBILE ACTIONS
+        ====================================================== */}
         <div className="md:hidden flex items-center gap-2 z-50">
           {!mobileMenuOpen && (
             <Link
@@ -108,17 +182,29 @@ export function Header() {
               Book
             </Link>
           )}
+
           <button
-            className="p-2 rounded-md"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            type="button"
+            className={cn(
+              'p-2 rounded-md transition-colors',
+              mobileMenuOpen
+                ? 'text-brand-espresso'
+                : useTransparentHeader
+                  ? 'text-brand-ivory'
+                  : 'text-brand-espresso'
+            )}
+            onClick={() => setMobileMenuOpen((prev) => !prev)}
             aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileMenuOpen}
           >
             {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Nav Overlay */}
+      {/* ======================================================
+          MOBILE NAV OVERLAY
+      ====================================================== */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -126,22 +212,58 @@ export function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-0 left-0 w-full h-screen bg-brand-ivory text-brand-espresso pt-24 px-6 flex flex-col md:hidden z-40"
+            className="
+              fixed
+              inset-0
+              w-full
+              h-screen
+              bg-brand-ivory
+              text-brand-espresso
+              pt-24
+              px-6
+              flex
+              flex-col
+              md:hidden
+              z-40
+            "
           >
             <nav className="flex flex-col gap-6 mt-8">
               {navLinks.map((link) => (
                 <Link
                   key={link.path}
                   to={link.path}
-                  className="text-2xl font-display font-medium text-brand-teal hover:text-brand-tealHover"
+                  className="
+                    text-2xl
+                    font-display
+                    font-medium
+                    text-brand-teal
+                    hover:text-brand-tealHover
+                    transition-colors
+                  "
                 >
                   {link.name}
                 </Link>
               ))}
+
               <div className="mt-8">
                 <Link
                   to="/book"
-                  className="block w-full text-center bg-brand-teal text-brand-ivory px-6 py-4 rounded-md text-lg font-semibold tracking-wider uppercase"
+                  className="
+                    block
+                    w-full
+                    text-center
+                    bg-brand-teal
+                    text-brand-ivory
+                    px-6
+                    py-4
+                    rounded-md
+                    text-lg
+                    font-semibold
+                    tracking-wider
+                    uppercase
+                    hover:bg-brand-tealHover
+                    transition-colors
+                  "
                 >
                   Book Your Session
                 </Link>

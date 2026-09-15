@@ -159,8 +159,15 @@ export function Book() {
     return (
       <div className="bg-brand-ivory min-h-screen flex flex-col justify-center py-20">
         <header className="absolute top-0 left-0 right-0 p-6 flex justify-center">
-          <Link to="/" className="font-display font-medium text-xl tracking-wide uppercase text-brand-espresso">
-            The Living Axis
+          <Link to="/" className="flex items-center gap-3" aria-label="The Living Axis">
+            <img 
+              src={darkLogo} 
+              alt="" 
+              className="h-8 w-auto object-contain" 
+            />
+            <span className="font-display font-medium text-xl tracking-wide uppercase text-brand-espresso">
+              The Living Axis
+            </span>
           </Link>
         </header>
 
@@ -228,12 +235,16 @@ export function Book() {
           <ArrowLeft size={16} aria-hidden="true" /> <span className="hidden sm:inline">Back</span>
         </button>
         <div className="absolute left-1/2 -translate-x-1/2">
-          <Link
-            to="/"
-            className="font-display font-medium text-xl tracking-wide uppercase text-brand-espresso rounded-sm"
-          >
-            The Living Axis
-          </Link>
+            <Link to="/" className="flex items-center gap-2" aria-label="The Living Axis">
+              <img 
+                src={darkLogo} 
+                alt="" 
+                className="h-6 sm:h-8 w-auto object-contain" 
+              />
+              <span className="font-display font-medium text-lg sm:text-xl tracking-wide uppercase text-brand-espresso rounded-sm">
+                The Living Axis
+              </span>
+            </Link>
         </div>
         <div className="w-20" />
       </header>

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { PENDING_BUSINESS_EMAIL, professionalStandards } from '../data/content';
+import lightLogo from '../assets/light version.png';
 
 export function Footer() {
   return (
@@ -8,9 +9,13 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-24 mb-20">
           {/* Brand & Summary */}
           <div className="md:col-span-5 lg:col-span-4">
-            <Link to="/" className="inline-block rounded-sm mb-6">
-              {/* Note: In production, the light logo file should be placed here */}
-              <span className="font-display font-medium text-[28px] tracking-wide uppercase text-brand-ivory">
+            <Link to="/" className="inline-flex items-center gap-3 rounded-sm mb-6" aria-label="The Living Axis">
+              <img 
+                src={lightLogo} 
+                alt="" 
+                className="h-10 w-auto object-contain" 
+              />
+              <span className="font-display font-medium text-[20px] tracking-wide uppercase text-brand-ivory">
                 The Living Axis
               </span>
             </Link>
