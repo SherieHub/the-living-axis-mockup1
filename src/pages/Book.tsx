@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import darkLogo from '../assets/dark-version.png';
+import darkLogo from '../assets/dark version.png';
 import { motion, AnimatePresence } from 'framer-motion';
 import { fadeUp } from '../lib/motion';
 import { Link, useSearchParams } from 'react-router-dom';
