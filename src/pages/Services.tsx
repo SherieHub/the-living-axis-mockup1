@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { fadeUp } from '../lib/motion';
 import { Link } from 'react-router-dom';
 import { Plus, Minus } from 'lucide-react';
 import { services, specialtyServices, DEPOSIT_REASON, DEPOSIT_TERMS } from '../data/content';
@@ -12,12 +13,26 @@ export function Services() {
     'Deep tissue, sports, restorative, prenatal, reflexology and scalp therapy, priced and delivered across Brooklyn and greater New York City.'
   );
 
-  const fadeUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
-  };
 
   const [expandedDetails, setExpandedDetails] = useState<Record<string, boolean>>({});
+  const [activeSection, setActiveSection] = useState('');
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: '-20% 0px -80% 0px' }
+    );
+    const sections = document.querySelectorAll('.service-section');
+    sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
+  }, []);
+
 
   const toggleDetails = (id: string) => {
     setExpandedDetails((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -38,7 +53,7 @@ export function Services() {
             Every session is adapted to the body in front of me. Start with what sounds closest — we can adjust from
             there.
           </p>
-          <p className="text-sm font-display italic text-brand-espresso/50">
+          <p className="text-sm italic text-brand-espresso/50">
             Standard travel and professional mobile setup are included within the normal service area.
           </p>
         </motion.div>
@@ -55,7 +70,7 @@ export function Services() {
               whileInView="visible"
               viewport={{ once: true, margin: '-100px' }}
               variants={fadeUp}
-              className="scroll-mt-32"
+              className="scroll-mt-32 service-section"
             >
               <div className="flex flex-col md:flex-row md:items-baseline md:justify-between mb-6 md:mb-8 border-b border-brand-teal/20 pb-6">
                 <div className="md:w-2/3">
@@ -65,11 +80,11 @@ export function Services() {
                 <div className="mt-6 md:mt-0 text-left md:text-right flex flex-col gap-2 md:gap-3 shrink-0">
                   {service.durations.map((d, i) => (
                     <div key={i} className="flex items-center md:justify-end gap-4">
-                      <span className="text-sm font-semibold uppercase tracking-wider text-brand-espresso/70">
+                      <span className="nums text-sm font-semibold uppercase tracking-wider text-brand-espresso/70">
                         {d.minutes} Min
                       </span>
                       <div className="hidden md:block w-8 h-px bg-brand-teal/20"></div>
-                      <span className="font-display text-2xl md:text-3xl text-brand-teal">${d.price}</span>
+                      <span className="nums font-body font-medium text-2xl md:text-3xl text-brand-teal">${d.price}</span>
                     </div>
                   ))}
                 </div>
@@ -177,10 +192,7 @@ export function Services() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: '-50px' }}
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.6, delay: i * 0.1 } },
-                }}
+                variants={fadeUp}
                 className="bg-white/50 p-8 md:p-10 border border-brand-teal/10 flex flex-col h-full"
               >
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-6 gap-4">
@@ -193,16 +205,16 @@ export function Services() {
                       .filter((d) => d.price !== undefined)
                       .map((d, idx) => (
                         <div key={idx} className="flex justify-between items-baseline gap-4 sm:justify-end text-sm">
-                          <span className="font-semibold uppercase tracking-wider text-brand-espresso/70">
+                          <span className="nums font-semibold uppercase tracking-wider text-brand-espresso/70">
                             {d.minutes} Min
                           </span>
-                          <span className="font-display text-xl text-brand-teal">${d.price}</span>
+                          <span className="nums font-display text-xl text-brand-teal">${d.price}</span>
                         </div>
                       ))}
                     {specialty.addonPrice !== undefined && (
                       <div className="flex justify-between items-baseline gap-4 sm:justify-end text-sm">
                         <span className="font-semibold uppercase tracking-wider text-brand-espresso/70">Add-on</span>
-                        <span className="font-display text-lg text-brand-teal/70 italic">+${specialty.addonPrice}</span>
+                        <span className="nums text-base text-brand-teal/70 italic">+${specialty.addonPrice}</span>
                       </div>
                     )}
                   </div>

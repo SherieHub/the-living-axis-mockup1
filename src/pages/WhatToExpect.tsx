@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { fadeUp } from '../lib/motion';
 import { Link } from 'react-router-dom';
 import { usePageMeta } from '../hooks/usePageMeta';
 import { SiteImage } from '../components/SiteImage';
@@ -9,10 +10,6 @@ export function WhatToExpect() {
     'How a mobile massage session runs, from booking to setup to treatment, anywhere in Brooklyn and greater New York City.'
   );
 
-  const fadeUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
-  };
 
   const steps = [
     {
@@ -70,14 +67,11 @@ export function WhatToExpect() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: '-50px' }}
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { opacity: 1, y: 0, transition: { duration: 0.6, delay: idx * 0.15 } },
-              }}
+              variants={fadeUp}
               className="flex-1 relative bg-brand-ivory"
             >
               <div className="flex flex-row lg:flex-col gap-6 lg:gap-8">
-                <div className="font-display italic text-[56px] md:text-[72px] leading-none text-brand-teal shrink-0">
+                <div className="nums font-display italic text-[56px] md:text-[72px] leading-none text-brand-teal shrink-0">
                   {step.num}
                 </div>
                 <div>
@@ -117,7 +111,7 @@ export function WhatToExpect() {
                 You do not need to provide massage equipment, linens, oils, or any treatment supplies. Everything
                 required for a professional clinical session is brought to you.
               </p>
-              <p className="text-sm font-display italic text-brand-espresso/60">
+              <p className="text-sm italic text-brand-espresso/60">
                 [Additional spatial or operational requirements pending client confirmation]
               </p>
             </div>

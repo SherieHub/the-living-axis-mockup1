@@ -122,7 +122,7 @@ export function SiteImage({ slot, className, dark = false, priority = false }: S
         >
           <p
             aria-hidden="true"
-            className="max-w-md text-center font-display italic leading-relaxed text-base text-brand-espresso/75 md:text-lg"
+            className="max-w-md text-center italic leading-relaxed text-[15px] text-brand-espresso/75 md:text-base"
           >
             {spec.shotBrief}
           </p>

@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { fadeUp } from '../lib/motion';
 import { Link } from 'react-router-dom';
 import { SiteImage } from '../components/SiteImage';
 import { usePageMeta } from '../hooks/usePageMeta';
@@ -9,10 +10,6 @@ export function ServiceAreas() {
     'Mobile massage across Brooklyn first, with Queens, Manhattan, the Bronx, Staten Island, Long Island and select New Jersey locations by arrangement.'
   );
 
-  const fadeUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
-  };
 
   const additionalAreas = ['Queens', 'Manhattan', 'The Bronx', 'Staten Island', 'Long Island', 'Select New Jersey'];
 
@@ -71,7 +68,7 @@ export function ServiceAreas() {
                   </li>
                 ))}
               </ul>
-              <p className="text-sm italic text-brand-espresso/60 font-display">
+              <p className="text-sm italic text-brand-espresso/60">
                 Service availability in these areas is highly dependent on distance, scheduling, and precise location.
               </p>
             </div>

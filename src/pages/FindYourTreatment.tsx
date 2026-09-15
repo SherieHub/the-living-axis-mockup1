@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { fadeUp } from '../lib/motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { SiteImage } from '../components/SiteImage';
@@ -10,10 +11,6 @@ export function FindYourTreatment() {
     'Choose between deep tissue, sports, restorative and prenatal massage for mobile sessions across Brooklyn and greater New York City.'
   );
 
-  const fadeUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
-  };
 
   const panels = [
     {

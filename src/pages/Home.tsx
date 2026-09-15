@@ -1,11 +1,55 @@
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { fadeUp } from '../lib/motion';
 import { useState } from 'react';
 import { SiteImage } from '../components/SiteImage';
-import { services, confirmedFaqs, BRAND_LINE } from '../data/content';
+import { services, confirmedFaqs, timelineSteps, BRAND_LINE } from '../data/content';
 import { ArrowRight, Plus, Minus } from 'lucide-react';
 import { usePageMeta } from '../hooks/usePageMeta';
 import { localBusinessSchema } from '../data/schema';
+
+/*
+ * Audience cards. Two large (top row) then three small (bottom row).
+ * `hook` is the two-line opener used on the large cards; `hookShort` is the
+ * single-line opener used on the small ones.
+ */
+const audienceCards = [
+  {
+    audience: 'Busy Professionals & High-Stress Clients',
+    hook: '“I carry all my stress in my neck and shoulders, and I don’t have time to travel across the city.”',
+    hookShort: '“I carry all my stress in my neck and shoulders.”',
+    need: 'Nervous-system down-regulation and deep fascial release, undoing what desk posture and mental load compound.',
+    link: '/find-your-treatment',
+  },
+  {
+    audience: 'Athletes, Gym-Goers & Active Adults',
+    hook: '“My training is plateauing because my recovery isn’t keeping up, and I have tightness I can’t stretch out.”',
+    hookShort: '“My recovery isn’t keeping up with my training.”',
+    need: 'Mobility work, trigger point release and performance restoration, matched to your current training block.',
+    link: '/services#sports',
+  },
+  {
+    audience: 'Prenatal & Postpartum Clients',
+    hook: '“My body is changing rapidly and I need safe, effective relief without leaving the house.”',
+    hookShort: '“My body is changing and everything aches.”',
+    need: 'Positioned structural support for pregnancy-related tension and postpartum recovery.',
+    link: '/services#prenatal',
+  },
+  {
+    audience: 'Older Adults',
+    hook: '“I want to maintain my mobility and manage stiffness comfortably at home.”',
+    hookShort: '“I want to keep my mobility, comfortably.”',
+    need: 'Gentle, focused work on joint mobility, circulation and tissue health, at your pace.',
+    link: '/find-your-treatment',
+  },
+  {
+    audience: 'Physically Demanding Work',
+    hook: '“I work with my hands and stand all day. My body is my livelihood.”',
+    hookShort: '“My body is my livelihood, and it’s wearing down.”',
+    need: 'Restorative therapy for repetitive strain, structural balance and career longevity.',
+    link: '/find-your-treatment',
+  },
+];
 
 export function Home() {
   // LocalBusiness schema is emitted once, from the homepage.
@@ -15,15 +59,12 @@ export function Home() {
     localBusinessSchema
   );
 
-  const fadeUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
-  };
 
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
-  const homeFaqs = confirmedFaqs.slice(0, 6);
+  // Four on the homepage; the View All link carries the rest.
+  const homeFaqs = confirmedFaqs.slice(0, 4);
 
-  return (
+    return (
     <div className="bg-brand-ivory min-h-screen selection:bg-brand-teal/20 selection:text-brand-espresso">
       {/* 1. HERO */}
       <section className="ground-dark relative bg-brand-teal pt-32 pb-20 md:pt-48 md:pb-32 px-5 sm:px-6 lg:px-12 overflow-hidden">
@@ -37,7 +78,7 @@ export function Home() {
               className="lg:col-span-6 flex flex-col justify-center"
             >
               <span className="text-brand-eucalyptus uppercase tracking-[0.18em] text-[12px] md:text-[13px] font-semibold mb-6 md:mb-8 block">
-                Premium Mobile Massage Therapy · Brooklyn, NY
+                PREMIUM MOBILE MASSAGE THERAPY · BROOKLYN, NY
               </span>
 
               {/* The emotional line is the headline here. Mockup 1 is the warm,
@@ -46,7 +87,7 @@ export function Home() {
                   positioning line lives in the meta description and on About —
                   never back in this hero. Mobile is capped at 34px. */}
               <h1 className="font-display text-[34px] sm:text-[48px] lg:text-[64px] leading-[1.05] text-brand-ivory mb-5">
-                {BRAND_LINE}
+                Healing that feels like coming home.
               </h1>
 
               {/* Sits tight under the H1 so the pair reads as one unit. */}
@@ -55,8 +96,7 @@ export function Home() {
                   360px — type size was preserved by finding width, not by
                   shrinking. */}
               <p className="text-[18px] md:text-[22px] lg:text-[24px] font-light tracking-[-0.014em] md:tracking-normal text-brand-ivory/90 leading-relaxed mb-10 max-w-xl">
-                Premium mobile massage therapy for recovery, mobility and nervous-system care, across Brooklyn and
-                greater NYC.
+                personalized mobile therapeutic bodywork for recovery, mobility, muscular tension, and nervous-system care, delivered to your space across Brooklyn and greater NYC.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
@@ -122,71 +162,88 @@ export function Home() {
           <h2 className="text-[36px] md:text-[56px] leading-[1.1] text-brand-teal max-w-3xl">Find Your Treatment.</h2>
         </motion.div>
 
-        <div className="flex flex-col gap-12 md:gap-24">
-          {[
-            {
-              audience: 'Busy Professionals & High-Stress Clients',
-              hook: '"I carry all my stress in my neck and shoulders, and I don\'t have time to travel across the city."',
-              need: 'Targeted nervous-system down-regulation and deep fascial release to undo the physical compounding of desk posture and mental exhaustion.',
-              link: '/services#therapeutic',
-            },
-            {
-              audience: 'Athletes, Gym-Goers & Active Adults',
-              hook: '"My training is plateauing because my recovery isn\'t keeping up, and I have specific tightness I can\'t stretch out."',
-              need: 'Clinical focus on mobility, trigger point deactivation, and performance restoration tailored to your exact training block.',
-              link: '/services#sports',
-            },
-            {
-              audience: 'Prenatal & Postpartum Clients',
-              hook: '"My body is changing rapidly, everything aches, and I just need safe, effective relief without leaving my house."',
-              need: 'Expertly positioned structural support designed specifically to relieve pregnancy-related tension, reduce swelling, and support critical postpartum recovery.',
-              link: '/services#prenatal',
-            },
-            {
-              audience: 'Older Adults & Geriatric Clients',
-              hook: '"I want to maintain my mobility and manage chronic stiffness comfortably in my own home."',
-              need: 'Gentle, focused therapeutic work addressing joint mobility, circulation, and tissue health with the utmost care and patience.',
-              link: '/services#therapeutic',
-            },
-            {
-              audience: 'Physically Demanding Professions',
-              hook: '"I work with my hands and stand all day. My body is my livelihood and it\'s breaking down."',
-              need: 'Intensive, restorative therapy focused on repetitive strain patterns, foundational structural balance, and career longevity.',
-              link: '/services#therapeutic',
-            },
-          ].map((card, idx) => (
-            <motion.div
-              key={idx}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-100px' }}
-              variants={fadeUp}
-              className={`grid grid-cols-1 md:grid-cols-12 gap-8 ${idx % 2 === 0 ? '' : 'md:grid-flow-dense'}`}
-            >
-              <div
-                className={`md:col-span-10 lg:col-span-8 ${idx % 2 === 0 ? 'md:col-start-1 lg:col-start-2' : 'md:col-start-3 lg:col-start-4'}`}
+        {/*
+          Deliberate 2 + 3 rhythm on a 12-column grid, not an arbitrary
+          asymmetry: two large cards on the top row (6 columns each, taller,
+          larger serif title, two-line opener), then three shorter cards below
+          (4 columns each, single-line opener). Both rows share the same left
+          gutter, and the card titles sit on a common baseline because every
+          title is a single line at its own size.
+
+          There is deliberately NO children or adolescents card. That policy
+          lives only in the FAQ and Policies sections.
+        */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-12 md:gap-y-16">
+          {audienceCards.map((card, idx) => {
+            const isLarge = idx < 2;
+            return (
+              <motion.div
+                key={card.audience}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-80px' }}
+                variants={fadeUp}
+                className={isLarge ? 'md:col-span-6' : 'md:col-span-4'}
               >
-                <h3 className="font-display text-2xl md:text-3xl text-brand-teal mb-4">{card.audience}</h3>
-                <p className="font-display italic text-xl md:text-2xl text-brand-espresso/80 mb-6 leading-relaxed">
-                  {card.hook}
-                </p>
-                <div className="w-12 h-px bg-brand-eucalyptus mb-6"></div>
-                <p className="text-brand-espresso/70 text-lg leading-relaxed mb-8">{card.need}</p>
                 <Link
                   to={card.link}
-                  className="inline-flex items-center gap-2 text-sm uppercase tracking-widest font-semibold text-brand-teal hover:text-brand-tealHover group transition-colors"
+                  className="group flex h-full min-h-[44px] flex-col rounded-sm py-1"
                 >
-                  Guidance & Treatment{' '}
-                  <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
+                  <h3
+                    className={
+                      isLarge
+                        ? 'font-display text-[28px] lg:text-[34px] leading-[1.12] text-brand-teal mb-4'
+                        : 'font-display text-2xl lg:text-[26px] leading-[1.12] text-brand-teal mb-3'
+                    }
+                  >
+                    {card.audience}
+                  </h3>
+
+                  {/* The lived-experience opener, in Work Sans. Two lines on the
+                      large cards, one on the small ones. */}
+                  <p
+                    className={
+                      isLarge
+                        ? 'text-brand-espresso/80 text-[17px] leading-relaxed mb-5'
+                        : 'text-brand-espresso/80 text-[15px] leading-relaxed mb-4'
+                    }
+                  >
+                    {isLarge ? card.hook : card.hookShort}
+                  </p>
+
+                  <p
+                    className={
+                      isLarge
+                        ? 'text-brand-espresso/60 text-[15px] leading-relaxed mb-6'
+                        : 'text-brand-espresso/60 text-sm leading-relaxed mb-5'
+                    }
+                  >
+                    {card.need}
+                  </p>
+
+                  {/* Single hairline eucalyptus rule. On desktop hover it
+                      extends to the full card width; the arrow moves 4px.
+                      Nothing else moves. */}
+                  <div className="mt-auto flex items-center justify-between gap-4 pt-1">
+                    <span
+                      aria-hidden="true"
+                      className="h-px w-12 bg-brand-eucalyptus transition-[width] duration-300 ease-out md:group-hover:w-full"
+                    />
+                    <ArrowRight
+                      size={18}
+                      aria-hidden="true"
+                      className="shrink-0 text-brand-teal transition-transform duration-300 ease-out md:group-hover:translate-x-1"
+                    />
+                  </div>
                 </Link>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
       </section>
 
       {/* 4. SERVICES & PRICING PREVIEW */}
-      <section className="bg-brand-teal/5 py-24 md:py-32 px-6 lg:px-12">
+      <section className="bg-brand-teal/5 py-20 md:py-24 px-6 lg:px-12">
         <div className="max-w-[1440px] mx-auto">
           <motion.div
             initial="hidden"
@@ -205,7 +262,7 @@ export function Home() {
                 transparently priced.
               </h2>
             </div>
-            <p className="text-brand-espresso/70 max-w-sm text-sm italic font-display text-lg">
+            <p className="text-brand-espresso/70 max-w-sm text-base italic">
               Travel and full setup are included in every rate within the service area.
             </p>
           </motion.div>
@@ -217,10 +274,7 @@ export function Home() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: '-50px' }}
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.6, delay: i * 0.1 } },
-                }}
+                variants={fadeUp}
                 className="bg-brand-ivory border border-brand-teal/10 p-8 lg:p-12 flex flex-col h-full hover:border-brand-teal/30 transition-colors"
               >
                 <h3 className="font-display text-2xl lg:text-3xl text-brand-teal mb-4">{service.title}</h3>
@@ -228,8 +282,8 @@ export function Home() {
                 <div className="space-y-3 mb-10 border-t border-brand-teal/10 pt-8">
                   {service.durations.slice(0, 2).map((d, idx) => (
                     <div key={idx} className="flex justify-between items-baseline">
-                      <span className="text-sm font-semibold uppercase tracking-wider">{d.minutes} Min</span>
-                      <span className="font-display text-xl text-brand-teal">${d.price}</span>
+                      <span className="nums text-sm font-semibold uppercase tracking-wider">{d.minutes} Min</span>
+                      <span className="nums font-display text-xl text-brand-teal">${d.price}</span>
                     </div>
                   ))}
                   {service.durations.length > 2 && (
@@ -256,71 +310,55 @@ export function Home() {
         </div>
       </section>
 
-      {/* 5. WHAT TO EXPECT */}
-      <section className="py-24 md:py-32 px-6 lg:px-12 max-w-[1440px] mx-auto">
+      {/*
+        5. WHAT TO EXPECT — the one espresso section on the page.
+        A single tonal anchor mid-scroll, breaking the ivory/teal alternation
+        exactly once. Ivory typography, eucalyptus numerals. Padding is tighter
+        here than the hero/About/closing blocks on purpose: the premium feeling
+        comes from the contrast between tight and open, not uniform openness.
+      */}
+      <section className="ground-dark bg-brand-espresso text-brand-ivory py-20 md:py-24 px-6 lg:px-12">
+        <div className="max-w-[1440px] mx-auto">
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-100px' }}
           variants={fadeUp}
-          className="text-center mb-16 md:mb-24"
+          className="text-center mb-14 md:mb-16"
         >
-          <span className="text-brand-teal uppercase tracking-widest text-xs font-semibold mb-6 block">
+          <span className="text-brand-eucalyptus uppercase tracking-widest text-xs font-semibold mb-6 block">
             What to Expect
           </span>
-          <h2 className="text-[36px] md:text-[56px] leading-[1.1] text-brand-teal">The Flow of Your Session.</h2>
+          <h2 className="text-[36px] md:text-[56px] leading-[1.1] text-brand-ivory">The Flow of Your Session.</h2>
         </motion.div>
 
-        <div className="mb-20">
-          <SiteImage slot="home-setup" />
+        <div className="mb-16">
+          <SiteImage slot="home-setup" dark />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
-          {[
-            {
-              num: '01',
-              title: 'Book',
-              desc: 'Select your service and time online. We confirm and send a brief intake.',
-            },
-            {
-              num: '02',
-              title: 'Brief Intake',
-              desc: 'We review your needs, current physical state, and any specific goals.',
-            },
-            {
-              num: '03',
-              title: 'Arrival & Setup',
-              desc: 'We arrive early to discreetly transform your space into a professional clinic.',
-            },
-            {
-              num: '04',
-              title: 'Your Session',
-              desc: 'Completely customized, uninterrupted therapeutic care in your own home.',
-            },
-          ].map((step, idx) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
+          {timelineSteps.map((step, idx) => (
             <motion.div
-              key={idx}
+              key={step.step}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: '-50px' }}
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { opacity: 1, y: 0, transition: { duration: 0.6, delay: idx * 0.1 } },
-              }}
-              className="relative"
+              variants={fadeUp}
+              transition={{ delay: idx * 0.06 }}
             >
-              <div className="font-display italic text-[56px] leading-none text-brand-eucalyptus/40 mb-6">
-                {step.num}
+              <div className="nums font-display italic text-[56px] leading-none text-brand-eucalyptus mb-5">
+                {step.step}
               </div>
-              <h3 className="font-display text-2xl text-brand-teal mb-3">{step.title}</h3>
-              <p className="text-brand-espresso/70 leading-relaxed">{step.desc}</p>
+              <h3 className="font-display text-2xl text-brand-ivory mb-3">{step.title}</h3>
+              <p className="text-brand-ivory/75 leading-relaxed text-[15px]">{step.description}</p>
             </motion.div>
           ))}
         </div>
+        </div>
       </section>
 
-      {/* 6. ABOUT THE PRACTITIONER */}
-      <section className="ground-dark bg-brand-espresso text-brand-ivory py-24 md:py-40 px-6 lg:px-12">
+      {/* 6. ABOUT THE PRACTITIONER — generous, on ivory. */}
+      <section className="bg-brand-ivory py-24 md:py-40 px-6 lg:px-12">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
             <motion.div
@@ -330,7 +368,7 @@ export function Home() {
               variants={fadeUp}
               className="lg:col-span-5"
             >
-              <SiteImage slot="home-practitioner" dark className="border border-brand-ivory/10" />
+              <SiteImage slot="home-practitioner" />
             </motion.div>
 
             <motion.div
@@ -391,30 +429,30 @@ export function Home() {
           </span>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-          {[1, 2, 3].map((_, i) => (
-            <motion.div
-              key={i}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-50px' }}
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { opacity: 1, y: 0, transition: { duration: 0.6, delay: i * 0.1 } },
-              }}
-              className="p-8 md:p-12 border border-brand-teal/10 bg-white/50"
+        <div className="grid grid-cols-1 gap-8 md:gap-12">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-50px' }}
+            variants={fadeUp}
+            className="p-10 md:p-16 lg:p-20 border border-brand-eucalyptus bg-brand-ivory text-center"
+          >
+            <span className="font-display text-7xl text-brand-teal leading-none mb-6 block" style={{ marginTop: '-2rem', marginBottom: '-1rem' }}>"</span>
+            <p className="font-display italic text-2xl md:text-3xl lg:text-4xl text-brand-espresso leading-relaxed max-w-3xl mx-auto mb-10">
+              Client words coming soon. In the meantime, questions are always welcome.
+            </p>
+            <Link
+              to="/contact"
+              className="inline-block text-brand-teal hover:text-brand-eucalyptus text-sm font-semibold tracking-wider uppercase underline decoration-brand-eucalyptus decoration-1 underline-offset-[6px] hover:decoration-brand-teal transition-colors"
             >
-              <p className="font-display italic text-xl md:text-2xl text-brand-espresso/60 leading-relaxed mb-8">
-                "Client words coming soon. In the meantime, questions are always welcome."
-              </p>
-              <div className="w-8 h-px bg-brand-teal/20"></div>
-            </motion.div>
-          ))}
+              Contact The Living Axis
+            </Link>
+          </motion.div>
         </div>
       </section>
 
       {/* 8. SERVICE AREA */}
-      <section className="bg-brand-teal/5 py-24 md:py-32 px-6 lg:px-12 border-y border-brand-teal/10">
+      <section className="bg-brand-teal/5 py-20 md:py-24 px-6 lg:px-12 border-y border-brand-teal/10">
         <div className="max-w-[1000px] mx-auto text-center">
           <motion.div
             initial="hidden"
@@ -451,7 +489,7 @@ export function Home() {
       </section>
 
       {/* 9. FAQ PREVIEW */}
-      <section className="py-24 md:py-32 px-6 lg:px-12 max-w-[1000px] mx-auto">
+      <section className="py-20 md:py-24 px-6 lg:px-12 max-w-[1000px] mx-auto">
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -536,3 +574,6 @@ export function Home() {
     </div>
   );
 }
+
+
+

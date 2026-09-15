@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { fadeUp } from '../lib/motion';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Check, ArrowLeft, Calendar as CalendarIcon, Clock, MapPin, Edit2, Info } from 'lucide-react';
 import {
@@ -22,10 +23,7 @@ import { Field } from '../components/Field';
 const TOTAL_STEPS = 4;
 
 const STEP_TITLES: Record<number, string> = {
-  1: 'Your Session',
-  2: 'Date and Time',
-  3: 'Your Details',
-  4: 'Review and Confirm',
+  1: 'Your Session', 2: 'Date & Time', 3: 'Location & Contact', 4: 'Brief Intake & Review',
 };
 
 interface FormErrors {
@@ -76,10 +74,6 @@ export function Book() {
   const [selectedAddons, setSelectedAddons] = useState<string[]>([]);
   const [agreedToPolicies, setAgreedToPolicies] = useState(false);
 
-  const fadeUp = {
-    hidden: { opacity: 0, y: 10 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-  };
 
   useEffect(() => {
     if (initialServiceId) setSelectedDurationIndex(0);
@@ -164,7 +158,7 @@ export function Book() {
     return (
       <div className="bg-brand-ivory min-h-screen flex flex-col justify-center py-20">
         <header className="absolute top-0 left-0 right-0 p-6 flex justify-center">
-          <Link to="/" className="font-display font-semibold text-xl tracking-wide uppercase text-brand-espresso">
+          <Link to="/" className="font-display font-medium text-xl tracking-wide uppercase text-brand-espresso">
             The Living Axis
           </Link>
         </header>
@@ -235,7 +229,7 @@ export function Book() {
         <div className="absolute left-1/2 -translate-x-1/2">
           <Link
             to="/"
-            className="font-display font-semibold text-xl tracking-wide uppercase text-brand-espresso rounded-sm"
+            className="font-display font-medium text-xl tracking-wide uppercase text-brand-espresso rounded-sm"
           >
             The Living Axis
           </Link>
@@ -262,7 +256,7 @@ export function Book() {
 
             <fieldset className="mb-12">
               <legend className="visually-hidden">Choose a service</legend>
-              <div className="flex flex-col gap-4">
+              <div className="nums flex flex-col gap-4">
                 {allBookableServices.map((service, idx) => {
                   const isSelected = selectedServiceId === service.id;
                   return (
@@ -270,10 +264,7 @@ export function Book() {
                       key={service.id}
                       initial="hidden"
                       animate="visible"
-                      variants={{
-                        hidden: { opacity: 0, y: 10 },
-                        visible: { opacity: 1, y: 0, transition: { delay: idx * 0.05 } },
-                      }}
+                      variants={fadeUp}
                       className={`border rounded-sm transition-all duration-300 overflow-hidden ${
                         isSelected
                           ? 'border-brand-teal bg-white shadow-sm'
@@ -329,7 +320,7 @@ export function Book() {
                               <legend className="text-xs uppercase tracking-widest font-semibold text-brand-espresso/50 mb-4">
                                 Select duration
                               </legend>
-                              <div className="flex flex-col gap-3">
+                              <div className="nums flex flex-col gap-3">
                                 {service.durations.map((d, dIdx) => {
                                   if (!d.price) return null;
                                   const isDurationSelected = selectedDurationIndex === dIdx;
@@ -417,7 +408,7 @@ export function Book() {
             <div className="bg-white border border-brand-teal/20 p-5 rounded-sm mb-10 flex justify-between items-center gap-4">
               <div>
                 <h2 className="font-display text-xl text-brand-teal">{selectedService.title}</h2>
-                <p className="text-brand-espresso/70 text-sm font-semibold tracking-wider uppercase mt-1">
+                <p className="nums text-brand-espresso/70 text-sm font-semibold tracking-wider uppercase mt-1">
                   {selectedDurationObj.minutes} Minutes · ${selectedDurationObj.price}
                 </p>
               </div>
@@ -440,7 +431,7 @@ export function Book() {
                 <CalendarIcon size={18} className="text-brand-teal" aria-hidden="true" />
                 Select a date
               </legend>
-              <div className="grid grid-cols-3 sm:grid-cols-5 gap-3">
+              <div className="nums grid grid-cols-3 sm:grid-cols-5 gap-3">
                 {availableDates.map((date) => {
                   const active = selectedDate === date;
                   return (
@@ -469,7 +460,7 @@ export function Book() {
                   <Clock size={18} className="text-brand-teal" aria-hidden="true" />
                   Select a time
                 </legend>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="nums grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {availableTimes.map((time) => {
                     const active = selectedTime === time;
                     return (
@@ -686,7 +677,7 @@ export function Book() {
               <div className="flex justify-between items-start gap-4 mb-6 border-b border-brand-teal/10 pb-6">
                 <div>
                   <h2 className="font-display text-2xl text-brand-teal mb-1">{selectedService.title}</h2>
-                  <p className="text-brand-espresso/70 text-sm font-semibold tracking-wider uppercase">
+                  <p className="nums text-brand-espresso/70 text-sm font-semibold tracking-wider uppercase">
                     {selectedDurationObj.minutes} Minutes
                   </p>
                 </div>
@@ -724,7 +715,7 @@ export function Book() {
               <div className="space-y-3 mb-6 border-b border-brand-teal/10 pb-6">
                 <div className="flex justify-between text-sm">
                   <span className="text-brand-espresso/80">Service base</span>
-                  <span className="text-brand-espresso">${basePrice}</span>
+                  <span className="nums text-brand-espresso">${basePrice}</span>
                 </div>
                 {selectedAddons.map((id) => {
                   const addon = addonOffers.find((a) => a.id === id);
@@ -750,7 +741,7 @@ export function Book() {
                   <span>Deposit</span>
                   <span>${depositAmount}</span>
                 </div>
-                <p className="text-xs text-brand-espresso/60 text-right">Remaining ${balanceDue} due at your session</p>
+                <p className="nums text-xs text-brand-espresso/60 text-right">Remaining ${balanceDue} due at your session</p>
               </div>
             </div>
 
@@ -758,7 +749,7 @@ export function Book() {
               <h2 className="text-sm uppercase tracking-widest font-semibold text-brand-espresso/70 mb-4">
                 Optional enhancements
               </h2>
-              <div className="space-y-3">
+              <div className="nums space-y-3">
                 {addonOffers.map((addon) => {
                   const isChecked = selectedAddons.includes(addon.id);
                   return (
@@ -793,7 +784,7 @@ export function Book() {
                           >
                             {addon.title}
                           </span>
-                          <span className="text-sm font-semibold text-brand-espresso/70">+${addon.price}</span>
+                          <span className="nums text-sm font-semibold text-brand-espresso/70">+${addon.price}</span>
                         </span>
                         <span className="block text-xs text-brand-espresso/60 mt-1">{addon.desc}</span>
                       </span>
@@ -831,7 +822,7 @@ export function Book() {
                 <Info size={18} className="text-brand-espresso/70 shrink-0 mt-0.5" aria-hidden="true" />
                 <div>
                   <p className="text-sm text-brand-espresso/80 leading-relaxed font-medium">{PAYMENT_PENDING_NOTICE}</p>
-                  <p className="text-sm text-brand-espresso/60 leading-relaxed mt-2">
+                  <p className="nums text-sm text-brand-espresso/60 leading-relaxed mt-2">
                     Once a platform is chosen, its secure checkout appears here and the ${depositAmount} deposit is
                     taken at this step.
                   </p>
@@ -937,3 +928,4 @@ export function Book() {
     </div>
   );
 }
+

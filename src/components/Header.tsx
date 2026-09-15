@@ -43,7 +43,7 @@ export function Header() {
     >
       <div className="max-w-[1440px] mx-auto px-6 lg:px-12 h-20 md:h-24 flex items-center justify-between">
         <Link to="/" className="z-50 relative rounded-sm">
-          <span className="font-display font-semibold text-2xl tracking-wide uppercase">The Living Axis</span>
+          <span className="font-display font-medium text-2xl tracking-wide uppercase">The Living Axis</span>
         </Link>
 
         {/* Desktop Nav */}

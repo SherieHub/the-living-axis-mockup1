@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { fadeUp } from '../lib/motion';
 import { Link } from 'react-router-dom';
 import { AlertCircle, Check, Info } from 'lucide-react';
 import { services, PENDING_BUSINESS_EMAIL, PROTOTYPE_CONTACT_NOTICE } from '../data/content';
@@ -28,10 +29,6 @@ export function Contact() {
   const [errors, setErrors] = useState<ContactErrors>({});
   const [values, setValues] = useState({ name: '', email: '', message: '' });
 
-  const fadeUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
-  };
 
   const set = (key: keyof typeof values) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setValues((v) => ({ ...v, [key]: e.target.value }));
@@ -111,10 +108,7 @@ export function Contact() {
           <motion.div
             initial="hidden"
             animate="visible"
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.1 } },
-            }}
+            variants={fadeUp}
             className="flex-1"
           >
             <AnimatePresence mode="wait">

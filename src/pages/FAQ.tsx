@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { fadeUp } from '../lib/motion';
 import { Link } from 'react-router-dom';
 import { Plus, Minus } from 'lucide-react';
 import {
@@ -23,10 +24,6 @@ export function FAQ() {
     faqPageSchema
   );
 
-  const fadeUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
-  };
 
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
 
@@ -120,7 +117,7 @@ export function FAQ() {
                 key={question}
                 className="border-b border-brand-teal/10 border-l-2 border-l-brand-eucalyptus pl-4 md:pl-6 py-6 md:py-7 flex flex-col md:flex-row md:justify-between md:items-start gap-2 md:gap-8"
               >
-                <h3 className="text-lg md:text-xl font-display text-brand-espresso/70">{question}</h3>
+                <h3 className="text-xl font-display text-brand-espresso/70">{question}</h3>
                 <span className="text-xs uppercase tracking-widest font-medium text-brand-espresso/55 shrink-0 md:mt-2 md:text-right">
                   {PENDING_LABEL}
                 </span>

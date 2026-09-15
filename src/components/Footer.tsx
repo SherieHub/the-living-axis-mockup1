@@ -10,7 +10,7 @@ export function Footer() {
           <div className="md:col-span-5 lg:col-span-4">
             <Link to="/" className="inline-block rounded-sm mb-6">
               {/* Note: In production, the light logo file should be placed here */}
-              <span className="font-display font-semibold text-[28px] tracking-wide uppercase text-brand-ivory">
+              <span className="font-display font-medium text-[28px] tracking-wide uppercase text-brand-ivory">
                 The Living Axis
               </span>
             </Link>

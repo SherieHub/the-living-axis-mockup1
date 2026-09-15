@@ -23,8 +23,22 @@
 }
 
 @layer base {
+  /*
+   * TYPEFACE PAIRING — locked, and deliberately different from Mockup 2
+   * (which is Fraunces + Inter). Neither of those is loaded here.
+   *
+   *   Display / headings : Cormorant Garamond, weights 300 and 500 ONLY.
+   *   Everything else    : Work Sans.
+   *
+   * Cormorant has a small x-height and high stroke contrast, so it is
+   * compensated below: negative optical tracking at display sizes, tight
+   * leading on the hero, and a hard 20px floor — it is never set smaller
+   * anywhere on the site, because it falls apart at caption sizes.
+   */
   body {
     @apply bg-brand-ivory text-brand-espresso font-body antialiased;
+    font-size: 17px;
+    line-height: 1.6;
   }
 
   h1,
@@ -34,6 +48,16 @@
   h5,
   h6 {
     @apply font-display text-brand-teal;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  /* Tight leading for the oversized serif moments. */
+  h1 {
+    line-height: 1.08;
+  }
+  h2 {
+    line-height: 1.12;
   }
 
   /*
@@ -162,6 +186,16 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
     opacity: 0.14;
     mix-blend-mode: multiply;
+  }
+
+  /*
+   * Lining, fixed-width numerals for every price, duration and step numeral,
+   * so price columns align optically down the page. Applied by class rather
+   * than globally — tabular figures are wrong inside running prose.
+   */
+  .nums {
+    font-variant-numeric: tabular-nums lining-nums;
+    font-feature-settings: 'tnum' 1, 'lnum' 1;
   }
 
   /* Skip-to-content link: visually hidden until it receives focus. */

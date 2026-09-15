@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { fadeUp } from '../lib/motion';
 import { Link } from 'react-router-dom';
 import { SiteImage } from '../components/SiteImage';
 import { usePageMeta } from '../hooks/usePageMeta';
@@ -9,10 +10,6 @@ export function About() {
     'The approach behind therapeutic and sports massage delivered in your own space across Brooklyn and greater New York City.'
   );
 
-  const fadeUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
-  };
 
   const groundedIn = [
     'Therapeutic Skill',
@@ -70,21 +67,21 @@ export function About() {
                 <h4 className="text-xs font-semibold uppercase tracking-widest text-brand-teal mb-1">
                   Professional Standing &amp; Insurance
                 </h4>
-                <p className="text-sm font-display italic text-brand-espresso/60">Client Information Pending</p>
+                <p className="text-sm italic text-brand-espresso/60">Client Information Pending</p>
               </div>
               <div className="w-full h-px bg-brand-teal/10"></div>
               <div>
                 <h4 className="text-xs font-semibold uppercase tracking-widest text-brand-teal mb-1">
                   Training & Credentials
                 </h4>
-                <p className="text-sm font-display italic text-brand-espresso/60">Client Information Pending</p>
+                <p className="text-sm italic text-brand-espresso/60">Client Information Pending</p>
               </div>
               <div className="w-full h-px bg-brand-teal/10"></div>
               <div>
                 <h4 className="text-xs font-semibold uppercase tracking-widest text-brand-teal mb-1">
                   Specialty Certifications
                 </h4>
-                <p className="text-sm font-display italic text-brand-espresso/60">Client Information Pending</p>
+                <p className="text-sm italic text-brand-espresso/60">Client Information Pending</p>
               </div>
             </div>
           </motion.div>
@@ -189,10 +186,7 @@ export function About() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: '-50px' }}
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { opacity: 1, y: 0, transition: { duration: 0.6, delay: idx * 0.1 } },
-              }}
+              variants={fadeUp}
               className="flex flex-col"
             >
               <div className="w-8 h-px bg-brand-eucalyptus mb-6"></div>

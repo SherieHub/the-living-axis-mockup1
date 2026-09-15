@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { fadeUp } from '../lib/motion';
 import { Link } from 'react-router-dom';
 import { usePageMeta } from '../hooks/usePageMeta';
 
@@ -8,10 +9,6 @@ export function NotFound() {
     'This page has moved on. Book mobile massage therapy in Brooklyn and greater New York City.'
   );
 
-  const fadeUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
-  };
 
   return (
     <div className="bg-brand-ivory min-h-screen pt-32 pb-32 flex items-center">
